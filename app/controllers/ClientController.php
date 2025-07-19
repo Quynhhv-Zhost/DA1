@@ -167,4 +167,12 @@ class ClientController extends Controller
 
         $this->view('client/orders', ['orders' => $orders]);
     }
+    public function contact()
+    {
+        $this->view('client/contact');
+    }
+    public function about()
+    {
+        $this->view('client/about');
+    }
 }

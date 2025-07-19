@@ -82,19 +82,23 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4">
-        <a class="navbar-brand" href="#">Cửa Hàng</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="mainNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link active" href="#">Trang chủ</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Sản phẩm</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Giới thiệu</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Liên hệ</a></li>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-warning" href="/">
+                <i class="fas fa-shoe-prints me-2"></i> Sneaker Shop
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="" ?url="?url=client/home">🏠 Trang chủ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="?url=client/list">👟 Sản phẩm</a></li>
+                    <li class="nav-item"><a class="nav-link" href="?url=client/about">📖 Giới thiệu</a></li>
+                    <li class="nav-item"><a class="nav-link" href="?url=client/contact">📞 Liên hệ</a></li>
+                    <li class="nav-item">
 
-                <?php if (isset($_SESSION['user']) && is_array($_SESSION['user']) && isset($_SESSION['user']['username'])) : ?>
+                        <?php if (isset($_SESSION['user']) && is_array($_SESSION['user']) && isset($_SESSION['user']['username'])) : ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                             <i class="fas fa-user"></i> <?= htmlspecialchars($_SESSION['user']['username']) ?>
@@ -110,8 +114,8 @@
                         </a>
                     </li>
                 <?php endif; ?>
-            </ul>
-        </div>
+                </ul>
+            </div>
     </nav>
     <!-- Dang nhap thanh cong -->
     <?php if (session_status() === PHP_SESSION_NONE) session_start(); ?>
@@ -128,35 +132,37 @@
     <?php endif; ?>
     <!-- Banner -->
     <!-- Banner (Slideshow) -->
-    <div class="d-flex justify-content-center my-4">
-        <div id="bannerCarousel" class="carousel slide shadow w-100" style="max-width: 82.5%;" data-bs-ride="carousel" data-bs-interval="2000">
-            <div class="carousel-inner rounded">
-                <div class="carousel-item active">
-                    <img src="/DA1/code/public/assets/images/banner1.png" class="d-block w-100" style="height: 400px; object-fit: cover;" alt="Banner 1">
-                </div>
-                <div class="carousel-item">
-                    <img src="/DA1/code/public/assets/images/banner2.jpg" class="d-block w-100" style="height: 400px; object-fit: cover;" alt="Banner 2">
-                </div>
-                <div class="carousel-item">
-                    <img src="/DA1/code/public/assets/images/banner3.png" class="d-block w-100" style="height: 400px; object-fit: cover;" alt="Banner 3">
-                </div>
+    <div id="bannerCarousel" class="carousel slide mb-4" data-bs-ride="carousel" data-bs-interval="3000">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="/DA1/public/assets/images/banner1.png" class="d-block w-100" style="height: 460px; object-fit: cover;" alt="Banner 1">
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon bg-dark rounded-circle" aria-hidden="true"></span>
-                <span class="visually-hidden">Trước</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#bannerCarousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon bg-dark rounded-circle" aria-hidden="true"></span>
-                <span class="visually-hidden">Sau</span>
-            </button>
+            <div class="carousel-item">
+                <img src="/DA1/public/assets/images/banner2.jpg" class="d-block w-100" style="height: 460px; object-fit: cover;" alt="Banner 2">
+            </div>
+            <div class="carousel-item">
+                <img src="/DA1/public/assets/images/banner3.png" class="d-block w-100" style="height: 460px; object-fit: cover;" alt="Banner 3">
+            </div>
         </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon bg-dark rounded-circle p-3"></span>
+            <span class="visually-hidden">Trước</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#bannerCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon bg-dark rounded-circle p-3"></span>
+            <span class="visually-hidden">Sau</span>
+        </button>
     </div>
 
 
 
     <!-- Sản phẩm nổi bật -->
     <div class="container">
-        <h2 class="mb-4 text-center">Sản phẩm nổi bật</h2>
+        <div class="container mt-5 text-center">
+            <h1 class="display-4">Chào mừng đến Sneaker Shop</h1>
+            <p class="lead">Khám phá các mẫu giày hot nhất hiện nay với giá cực hấp dẫn</p>
+        </div>
 
         <!-- Vùng chứa sản phẩm và mũi tên -->
         <div class="arrow-wrapper">
@@ -170,7 +176,7 @@
                 <?php foreach ($data['products'] as $product) : ?>
                     <div class="col-md-4 product-item">
                         <div class="card product-card h-100 shadow">
-                            <img src="/DA1/code/public/assets/images/<?= htmlspecialchars($product['image']) ?>" class="card-img-top" alt="<?= htmlspecialchars($product['name']) ?>" style="height: 250px; object-fit: cover;">
+                            <img src="/DA1/public/assets/images/<?= htmlspecialchars($product['image']) ?>" class="card-img-top" alt="<?= htmlspecialchars($product['name']) ?>" style="height: 250px; object-fit: cover;">
                             <div class="card-body">
                                 <h5 class="card-title"><?= htmlspecialchars($product['name']) ?></h5>
                                 <p class="card-text"><?= htmlspecialchars(mb_substr($product['description'], 0, 80)) ?>...</p>
@@ -190,11 +196,78 @@
     </div>
 
     <!-- Footer -->
-    <footer class="text-center mt-5">
+    <footer class="bg-light text-dark py-5 border-top">
         <div class="container">
-            <p>&copy; <?= date('Y') ?> Cửa Hàng Demo. All rights reserved.</p>
+            <div class="row">
+                <!-- Cột 1: Về Uniqlo -->
+                <div class="col-md-3">
+                    <h6 class="fw-bold">Về Uniqlo</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-dark text-decoration-none">Thông tin</a></li>
+                        <li><a href="#" class="text-dark text-decoration-none">Danh sách cửa hàng</a></li>
+                        <li><a href="#" class="text-dark text-decoration-none">Cơ hội nghề nghiệp</a></li>
+                    </ul>
+                </div>
+
+                <!-- Cột 2: Trợ giúp -->
+                <div class="col-md-3">
+                    <h6 class="fw-bold">Trợ giúp</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-dark text-decoration-none">FAQ</a></li>
+                        <li><a href="#" class="text-dark text-decoration-none">Chính sách trả hàng</a></li>
+                        <li><a href="#" class="text-dark text-decoration-none">Chính sách bảo mật</a></li>
+                        <li><a href="#" class="text-dark text-decoration-none">Tiếp cận</a></li>
+                    </ul>
+                </div>
+
+                <!-- Cột 3: Tài khoản -->
+                <div class="col-md-3">
+                    <h6 class="fw-bold">Tài khoản</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-dark text-decoration-none">Tư cách thành viên</a></li>
+                        <li><a href="#" class="text-dark text-decoration-none">Hồ sơ</a></li>
+                        <li><a href="#" class="text-dark text-decoration-none">Coupons</a></li>
+                    </ul>
+                </div>
+
+                <!-- Cột 4: Bản tin điện tử -->
+                <div class="col-md-3">
+                    <h6 class="fw-bold">Bản tin điện tử</h6>
+                    <p class="small">
+                        Đăng ký ngay để nhận thông tin về sản phẩm mới, chương trình khuyến mãi & sự kiện.
+                    </p>
+                    <a href="#" class="fw-bold text-dark">ĐĂNG KÝ NGAY</a>
+                </div>
+            </div>
+
+            <hr class="border-dark my-4" />
+
+            <!-- Tài khoản xã hội -->
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <p class="mb-0 small">
+                        Cài đặt cookies |
+                        <a href="#" class="text-dark text-decoration-none">English</a> |
+                        <a href="#" class="text-dark text-decoration-none">Tiếng Việt</a>
+                    </p>
+                </div>
+                <div>
+                    <a href="#" class="text-dark me-3"><i class="fab fa-facebook fa-lg"></i></a>
+                    <a href="#" class="text-dark me-3"><i class="fab fa-instagram fa-lg"></i></a>
+                    <a href="#" class="text-dark me-3"><i class="fab fa-youtube fa-lg"></i></a>
+                    <a href="#" class="text-dark"><i class="fab fa-tiktok fa-lg"></i></a>
+                </div>
+            </div>
+
+            <hr class="border-dark my-4" />
+
+            <!-- Bản quyền -->
+            <div class="text-center">
+                <p class="mb-0 small">BẢN QUYỀN THUỘC CÔNG TY TNHH UNIQLO. BẢO LƯU MỌI QUYỀN.</p>
+            </div>
         </div>
     </footer>
+
 
     <!-- JS -->
     <script>
