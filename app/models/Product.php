@@ -45,4 +45,12 @@ class Product extends Database
     {
         return $this->query("DELETE FROM products WHERE id = ?", [$id]);
     }
+    //hàm tìm kiếm sản phẩm
+        public function searchByname($name)
+    {
+        //tìm sản phẩm chứa chuỗi tìm kiếm (like %...%)
+        return $this->query(
+            "SELECT * FROM products WHERE name LIKE ? ORDER BY id DESC", ['%' . $name . '%']
+        )->fetchAll();
+    }
 }
