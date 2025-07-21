@@ -3,6 +3,11 @@ class ReviewController extends Controller
 {
     public function store()
     {
+        // Kiểm tra đăng nhập
+        if (!isset($_SESSION['user'])) {
+            die('Bạn phải đăng nhập để gửi đánh giá.');
+        }
+        
         $product_id = $_POST['product_id'];
         $user_id    = $_POST['user_id'];
         $rating     = $_POST['rating'];

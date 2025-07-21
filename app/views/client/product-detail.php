@@ -128,7 +128,9 @@
                         </div>
                     </div>
                 </div>
+                
                 <!-- đánh giá sản phẩm -->
+                 <?php if (isset($_SESSION['user'])): ?>
                 <h4>Đánh giá sản phẩm</h4>
             <form action="?url=review/store" method="POST">
             <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
@@ -147,6 +149,10 @@
     </div>
     <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
 </form>
+<?php else: ?>
+    <p class="text-danger">Vui lòng <a href="?url=client/showLoginForm">đăng nhập</a> để gửi đánh giá.</p>
+<?php endif; ?>
+
 <!-- danh sách người dùng đánh giá -->
 <?php if (!empty($data['reviews'])): ?>
     <hr>
