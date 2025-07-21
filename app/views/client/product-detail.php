@@ -128,6 +128,43 @@
                         </div>
                     </div>
                 </div>
+                <!-- đánh giá sản phẩm -->
+                <h4>Đánh giá sản phẩm</h4>
+            <form action="?url=review/store" method="POST">
+            <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
+            <input type="hidden" name="user_id" value="<?= $_SESSION['user']['id'] ?? 0 ?>">
+            <div class="mb-2">
+        <label for="rating">Số sao (1–5):</label>
+        <select name="rating" id="rating" required class="form-select w-auto">
+            <?php for ($i = 5; $i >= 1; $i--): ?>
+                <option value="<?= $i ?>"><?= $i ?> ⭐</option>
+            <?php endfor; ?>
+        </select>
+            </div>
+    <div class="mb-2">
+        <label for="comment">Bình luận:</label>
+        <textarea name="comment" id="comment" rows="3" class="form-control" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
+</form>
+<!-- danh sách người dùng đánh giá -->
+<?php if (!empty($data['reviews'])): ?>
+    <hr>
+    <h5 class="mt-4">Bình luận từ người dùng khác</h5>
+    <?php foreach ($data['reviews'] as $review): ?>
+        <div class="border p-3 rounded mb-3">
+            <div class="d-flex justify-content-between">
+                <strong><?= htmlspecialchars($review['username'] ?? 'Khách') ?></strong>
+                <span><?= str_repeat('⭐', (int)$review['rating']) ?></span>
+            </div>
+            <p class="mb-0"><?= nl2br(htmlspecialchars($review['comment'])) ?></p>
+        </div>
+    <?php endforeach; ?>
+<?php else: ?>
+    <p class="text-muted mt-3">Chưa có đánh giá nào.</p>
+<?php endif; ?>
+
+
             </div>
 
             <script>

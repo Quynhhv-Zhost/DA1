@@ -32,9 +32,14 @@ class ClientController extends Controller
         return;
     }
 
+    $reviewModel = $this->model('Review');
+    $reviews = $reviewModel->getReviewsByProductId($id);
+
     $this->view('client/product-detail', [
-        'product' => $product
-    ]);
+    'product' => $product,
+    'reviews' => $reviews
+]);
+
 }
 
 
