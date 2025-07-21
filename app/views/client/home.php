@@ -193,7 +193,7 @@
         <?php else : ?>
         <?php endif; ?>
 
-        
+
                 <?php foreach ($data['products'] as $product) : ?>
                     <div class="col-md-4 product-item">
                         <div class="card product-card h-100 shadow">
@@ -202,7 +202,7 @@
                                 <h5 class="card-title"><?= htmlspecialchars($product['name']) ?></h5>
                                 <p class="card-text"><?= htmlspecialchars(mb_substr($product['description'], 0, 80)) ?>...</p>
                                 <p class="fw-bold text-danger"><?= number_format($product['price'], 0, ',', '.') ?> VND</p>
-                                <a href="?url=client/detail/<?= $product['id'] ?>" class="btn btn-outline-primary w-100">Xem chi tiết</a>
+                              <a href="?url=client/detail/<?= $product['id'] ?>" class="btn btn-outline-primary w-100">Xem chi tiết</a>
                             </div>
                         </div>
                     </div>

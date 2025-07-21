@@ -20,6 +20,23 @@ class ClientController extends Controller
             'search' => $search
         ]);
     }
+    //hàm chi tiết sản phẩm
+    public function detail($id)
+{
+    $productModel = $this->model('Product');
+    $product = $productModel->getById($id);
+
+    if (!$product) {
+        // Có thể chuyển hướng hoặc báo lỗi nếu không tìm thấy sản phẩm
+        echo "Sản phẩm không tồn tại.";
+        return;
+    }
+
+    $this->view('client/product-detail', [
+        'product' => $product
+    ]);
+}
+
 
     // ✅ Hiển thị form đăng nhập
     public function showLoginForm()
