@@ -8,89 +8,83 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            padding-top: 70px;
-        }
-
-        footer {
-            background: #343a40;
-            color: white;
-            padding: 20px 0;
-            margin-top: 40px;
+            background: #f8f9fa;
         }
 
         .img-preview {
-            max-height: 120px;
+            max-width: 180px;
+            max-height: 180px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            background: #fff;
             object-fit: cover;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+        }
+
+        .card {
+            border-radius: 16px;
         }
     </style>
 </head>
 
 <body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-7 col-md-9">
+                <div class="card shadow-sm p-4">
+                    <h3 class="mb-4 text-center">Chỉnh sửa sản phẩm</h3>
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-        <div class="container-fluid px-4">
-            <a class="navbar-brand" href="#">Admin Panel</a>
-            <div class="d-flex">
-                <a href="?url=auth/logout" class="btn btn-outline-light">Đăng xuất</a>
+                    <?php if (!empty($data['errors'])) : ?>
+                        <div class="alert alert-danger">
+                            <?php foreach ($data['errors'] as $error) : ?>
+                                <div>• <?= $error ?></div>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <form method="POST" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Tên sản phẩm</label>
+                            <input type="text" name="name" class="form-control" value="<?= htmlspecialchars($data['product']['name']) ?>" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="price" class="form-label">Giá (VND)</label>
+                            <input type="number" name="price" class="form-control" value="<?= $data['product']['price'] ?>" min="0" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Mô tả</label>
+                            <textarea name="description" class="form-control" rows="4" required><?= htmlspecialchars($data['product']['description'] ?? '') ?></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Ảnh hiện tại</label><br>
+                            <?php if (!empty($data['product']['image'])) : ?>
+                                <img src="/DA1/code/public/assets/images/<?= htmlspecialchars($data['product']['image']) ?>" class="img-preview mb-2" alt="Ảnh hiện tại">
+                            <?php else : ?>
+                                <p class="text-muted">Chưa có ảnh</p>
+                            <?php endif; ?>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="image" class="form-label">Chọn ảnh mới (nếu muốn đổi)</label>
+                            <input type="file" name="image" id="image" class="form-control">
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4">
+                            <button type="submit" class="btn btn-success px-4">💾 Lưu thay đổi</button>
+                            <a href="?url=product/index" class="btn btn-secondary">⬅️ Quay lại</a>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </nav>
-
-    <div class="container mt-5">
-        <h3 class="mb-4">Chỉnh sửa sản phẩm</h3>
-
-        <?php if (!empty($data['errors'])) : ?>
-            <div class="alert alert-danger">
-                <?php foreach ($data['errors'] as $error) : ?>
-                    <div>• <?= $error ?></div>
-                <?php endforeach; ?>
-            </div>
-        <?php endif; ?>
-
-        <form method="POST" enctype="multipart/form-data" class="card p-4 shadow-sm border rounded-3 bg-light">
-            <div class="mb-3">
-                <label for="name" class="form-label">Tên sản phẩm</label>
-                <input type="text" name="name" class="form-control" value="<?= htmlspecialchars($data['product']['name']) ?>" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="price" class="form-label">Giá (VND)</label>
-                <input type="number" name="price" class="form-control" value="<?= $data['product']['price'] ?>" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="description" class="form-label">Mô tả</label>
-                <textarea name="description" class="form-control" rows="4"><?= htmlspecialchars($data['product']['description'] ?? '') ?></textarea>
-            </div>
-
-            <div class="mb-3">
-                <label for="image" class="form-label">Ảnh hiện tại</label><br>
-                <?php if (!empty($data['product']['image'])) : ?>
-                    <img src="/DA1/code/public/assets/images/<?= $data['product']['image'] ?>" class="img-preview mb-2" alt="Ảnh hiện tại">
-                <?php else : ?>
-                    <p class="text-muted">Chưa có ảnh</p>
-                <?php endif; ?>
-            </div>
-
-            <div class="mb-3">
-                <label for="image" class="form-label">Chọn ảnh mới (nếu muốn đổi)</label>
-                <input type="file" name="image" class="form-control">
-            </div>
-
-            <div class="d-flex justify-content-between">
-                <button type="submit" class="btn btn-primary">Cập nhật sản phẩm</button>
-                <a href="?url=product/index" class="btn btn-secondary">⬅️ Quay lại</a>
-            </div>
-        </form>
     </div>
 
     <!-- Footer -->
     <footer class="text-center mt-5">
         <div class="container">
-            <p>&copy; <?= date('Y') ?> Admin Shop. All rights reserved.</p>
+            <small class="text-muted">&copy; <?= date('Y') ?> Admin Shop. All rights reserved.</small>
         </div>
     </footer>
 

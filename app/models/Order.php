@@ -62,4 +62,44 @@ class Order extends Database
         );
         return $stmt->fetchAll();
     }
+
+    // Lấy tất cả đơn hàng cho admin
+    public function getAllOrders()
+    {
+        return $this->query("SELECT * FROM orders ORDER BY created_at DESC")->fetchAll();
+    }
+
+    // Lấy chi tiết đơn hàng cho admin (không ràng buộc user)
+    public function getOrderByIdAdmin($orderId)
+    {
+        $order = $this->query(
+            "SELECT * FROM orders WHERE id = ?",
+            [$orderId]
+        )->fetch();
+
+        if (!$order) return null;
+
+        $orderItems = $this->query(
+            "SELECT 
+                    oi.*, 
+                    v.color, v.size, 
+                    COALESCE(v.image, p.image) AS image,
+                    p.name AS product_name,
+                    oi.price
+                FROM order_items oi
+                JOIN product_variations v ON oi.variation_id = v.id
+                JOIN products p ON v.product_id = p.id
+                WHERE oi.order_id = ?",
+            [$orderId]
+        )->fetchAll();
+
+        $order['items'] = $orderItems;
+        return $order;
+    }
+
+    // Cập nhật trạng thái đơn hàng (admin duyệt, chuyển trạng thái)
+    public function updateStatus($id, $status)
+    {
+        $this->query("UPDATE orders SET status = ? WHERE id = ?", [$status, $id]);
+    }
 }
