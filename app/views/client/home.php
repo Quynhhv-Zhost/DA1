@@ -91,6 +91,16 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
+                 <!-- tìm kiếm sản phẩm -->
+             <form method="GET" action="" class="d-flex me-auto">
+        <input type="hidden" name="url" value="client/home">
+        <input type="text" name="search" class="form-control me-2"
+               placeholder="Tìm sản phẩm..."
+               value="<?= htmlspecialchars($data['search'] ?? '') ?>">
+        <button type="submit" class="btn btn-outline-light">
+            <i class="fas fa-search"></i>
+        </button>
+    </form>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link active" href="" ?url="?url=client/home">🏠 Trang chủ</a></li>
                     <li class="nav-item"><a class="nav-link" href="?url=client/list">👟 Sản phẩm</a></li>
@@ -173,6 +183,17 @@
 
             <!-- Danh sách sản phẩm -->
             <div class="row g-4 flex-grow-1" id="productContainer">
+                 <!-- THÔNG BÁO NẾU KHÔNG TÌM THẤY SẢN PHẨM -->
+        <?php if (empty($data['products'])) : ?> 
+        <div class="col-12">
+            <div class="alert alert-warning text-center w-100">
+                Không tìm thấy sản phẩm nào phù hợp.
+            </div>
+        </div>
+        <?php else : ?>
+        <?php endif; ?>
+
+        
                 <?php foreach ($data['products'] as $product) : ?>
                     <div class="col-md-4 product-item">
                         <div class="card product-card h-100 shadow">
