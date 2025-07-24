@@ -65,7 +65,7 @@
                         <td><?= $product['id'] ?></td>
                         <td>
                             <?php if (!empty($product['image'])) : ?>
-                                <img src="/DA1/code/public/assets/images/<?= $product['image'] ?>" alt="Ảnh" width="80" height="60" style="object-fit: cover;">
+                                <img src="/DA1/public/assets/images/<?= $product['image'] ?>" alt="Ảnh" width="80" height="60" style="object-fit: cover;">
                                 <!-- <small><?= BASE_URL ?>assets/images/<?= $product['image'] ?></small> -->
 
                             <?php else : ?>

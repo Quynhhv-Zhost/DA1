@@ -69,7 +69,7 @@
             <div class="mb-3">
                 <label for="image" class="form-label">Ảnh hiện tại</label><br>
                 <?php if (!empty($data['product']['image'])) : ?>
-                    <img src="/DA1/code/public/assets/images/<?= $data['product']['image'] ?>" class="img-preview mb-2" alt="Ảnh hiện tại">
+                    <img src="/DA1/public/assets/images/<?= $data['product']['image'] ?>" class="img-preview mb-2" alt="Ảnh hiện tại">
                 <?php else : ?>
                     <p class="text-muted">Chưa có ảnh</p>
                 <?php endif; ?>

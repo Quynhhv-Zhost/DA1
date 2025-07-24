@@ -4,15 +4,37 @@ class ClientController extends Controller
     public function home()
     {
         $productModel = $this->model('Product');
-        $products = $productModel->getAll();
-        $this->view('client/home', ['products' => $products]);
+        // Lấy từ khóa tìm kiếm từ URL (thông qua biến $_GET), nếu không có thì gán chuỗi rỗng
+        $search = $_GET['search'] ?? '';
+        // Kiểm tra nếu người dùng có nhập từ khóa tìm kiếm
+        if (!empty($search)) {
+            // Nếu có từ khóa tìm kiếm, gọi hàm searchByname trong model để tìm sản phẩm theo tên
+            $products = $productModel->searchByname($search);
+        } else {
+            // Nếu không có từ khóa, lấy tất cả sản phẩm từ database
+            $products = $productModel->getAll();
+        }
+        // Gọi view 'client/home' và truyền dữ liệu (danh sách sản phẩm và từ khóa tìm kiếm) vào view
+        $this->view('client/home', [
+            'products' => $products,
+            'search' => $search
+        ]);
     }
 
     public function detail($id)
     {
         $productModel = $this->model('Product');
         $product = $productModel->getById($id);
-        $this->view('client/product-detail', ['product' => $product]);
+
+        if (!$product) {
+            // Có thể chuyển hướng hoặc báo lỗi nếu không tìm thấy sản phẩm
+            echo "Sản phẩm không tồn tại.";
+            return;
+        }
+
+        $this->view('client/product-detail', [
+            'product' => $product
+        ]);
     }
 
     // ✅ Hiển thị form đăng nhập

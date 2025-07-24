@@ -174,7 +174,7 @@
 
   <div class="row align-items-center mb-5">
     <div class="col-md-6">
-      <img src="/DA1-QUYNHHV/public/assets/images/banner gioi thieu.jpg" class="img-fluid rounded shadow" alt="Uniqlo Store" />
+      <img src="/DA1/public/assets/images/banner1.png" class="img-fluid rounded shadow" alt="Uniqlo Store" />
     </div>
     <div class="col-md-6">
       <h3 class="fw-bold">Sứ mệnh của chúng tôi</h3>
