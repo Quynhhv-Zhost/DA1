@@ -14,7 +14,7 @@ class CartController extends Controller
         $userId = $_SESSION['user']['id'];
         $cartModel = $this->model('Cart');
 
-        // Join với bảng products để lấy thông tin sản phẩm
+        // Lấy giỏ hàng với thông tin sản phẩm, bao gồm giá mới nhất
         $cart = $cartModel->getCartWithProductInfo($userId);  // Phương thức getCartWithProductInfo cần sửa
 
         $this->view('client/cart', ['cart' => $cart]);

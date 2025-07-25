@@ -6,7 +6,10 @@ class ProductController extends Controller
         $this->checkAdmin();
         $productModel = $this->model('Product');
         $products = $productModel->getAll();
-        $this->view('admin/product-list', ['products' => $products]);
+        // Gọi view con, KHÔNG gọi layout
+        $this->view('admin/product-list', [
+            'products' => $products
+        ]);
     }
 
     public function add()
@@ -23,29 +26,24 @@ class ProductController extends Controller
             if ($price <= 0) $errors[] = "Giá phải lớn hơn 0";
 
             $imageName = null;
-
             if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
                 $allowTypes = ['image/jpeg', 'image/png', 'image/jpg'];
                 $fileType = $_FILES['image']['type'];
-
                 if (!in_array($fileType, $allowTypes)) {
                     $errors[] = "Chỉ cho phép ảnh JPG/PNG";
                 } else {
                     $uploadDir = 'public/assets/images/';
                     $originalName = pathinfo($_FILES['image']['name'], PATHINFO_FILENAME);
                     $extension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
-                    $cleanName = preg_replace('/[^a-zA-Z0-9_-]/', '_', $originalName); // chống lỗi ký tự lạ
-
+                    $cleanName = preg_replace('/[^a-zA-Z0-9_-]/', '_', $originalName);
                     $imageName = $cleanName . '.' . $extension;
                     $targetPath = $uploadDir . $imageName;
-
                     $i = 1;
                     while (file_exists($targetPath)) {
                         $imageName = $cleanName . "($i)." . $extension;
                         $targetPath = $uploadDir . $imageName;
                         $i++;
                     }
-
                     move_uploaded_file($_FILES['image']['tmp_name'], $targetPath);
                 }
             }
@@ -55,14 +53,14 @@ class ProductController extends Controller
                 header('Location: ?url=product/index');
                 exit;
             } else {
-                $this->view('admin/product-add', ['errors' => $errors]);
+                $this->view('admin/product-add', [
+                    'errors' => $errors
+                ]);
             }
         } else {
             $this->view('admin/product-add');
         }
     }
-
-
 
     public function edit($id)
     {
@@ -70,25 +68,21 @@ class ProductController extends Controller
         $productModel = $this->model('Product');
         $product = $productModel->getById($id);
 
-        if (!$product) {
-            die("Không tìm thấy sản phẩm");
-        }
+        if (!$product) die("Không tìm thấy sản phẩm");
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $name = trim($_POST['name']);
             $price = floatval($_POST['price']);
             $description = trim($_POST['description']);
             $errors = [];
-            $imageName = $product['image']; // giữ ảnh cũ mặc định
+            $imageName = $product['image'];
 
             if (empty($name)) $errors[] = "Tên sản phẩm không được để trống";
             if ($price <= 0) $errors[] = "Giá phải lớn hơn 0";
 
-            // Xử lý ảnh nếu người dùng upload ảnh mới
             if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
                 $allowTypes = ['image/jpeg', 'image/png', 'image/jpg'];
                 $fileType = $_FILES['image']['type'];
-
                 if (!in_array($fileType, $allowTypes)) {
                     $errors[] = "Chỉ cho phép ảnh JPG/PNG";
                 } else {
@@ -96,17 +90,14 @@ class ProductController extends Controller
                     $originalName = pathinfo($_FILES['image']['name'], PATHINFO_FILENAME);
                     $extension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
                     $cleanName = preg_replace('/[^a-zA-Z0-9_-]/', '_', $originalName);
-
                     $imageName = $cleanName . '.' . $extension;
                     $targetPath = $uploadDir . $imageName;
-
                     $i = 1;
                     while (file_exists($targetPath)) {
                         $imageName = $cleanName . "($i)." . $extension;
                         $targetPath = $uploadDir . $imageName;
                         $i++;
                     }
-
                     move_uploaded_file($_FILES['image']['tmp_name'], $targetPath);
                 }
             }
@@ -116,14 +107,17 @@ class ProductController extends Controller
                 header('Location: ?url=product/index');
                 exit;
             } else {
-                $this->view('admin/product-edit', ['product' => $product, 'errors' => $errors]);
+                $this->view('admin/product-edit', [
+                    'product' => $product,
+                    'errors' => $errors
+                ]);
             }
         } else {
-            $this->view('admin/product-edit', ['product' => $product]);
+            $this->view('admin/product-edit', [
+                'product' => $product
+            ]);
         }
     }
-
-
 
     public function delete($id)
     {
@@ -134,6 +128,7 @@ class ProductController extends Controller
 
     private function checkAdmin()
     {
+        if (session_status() === PHP_SESSION_NONE) session_start();
         if (!isset($_SESSION['admin'])) {
             header('Location: ?url=auth/login');
             exit;
