@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jul 21, 2025 at 06:07 AM
+-- Generation Time: Jul 21, 2025 at 07:40 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -35,6 +35,33 @@ CREATE TABLE `cart` (
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   `product_id` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `coupons`
+--
+
+CREATE TABLE `coupons` (
+  `id` int NOT NULL,
+  `code` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `discount_value` decimal(10,2) NOT NULL,
+  `discount_type` enum('percentage','fixed') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `min_order_value` decimal(10,2) DEFAULT NULL,
+  `max_discount` decimal(10,2) DEFAULT NULL,
+  `expiration_date` datetime DEFAULT NULL,
+  `usage_limit` int DEFAULT NULL,
+  `used_count` int DEFAULT '0',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `coupons`
+--
+
+INSERT INTO `coupons` (`id`, `code`, `discount_value`, `discount_type`, `min_order_value`, `max_discount`, `expiration_date`, `usage_limit`, `used_count`, `created_at`) VALUES
+(1, 'MAGIAMGIA1', '15.00', 'percentage', '500000.00', '150000.00', '2025-12-31 23:59:59', 100, 0, '2025-07-21 07:31:25'),
+(2, 'MAGIAMGIA2', '200000.00', 'fixed', '1000000.00', NULL, '2025-12-31 23:59:59', 50, 0, '2025-07-21 07:31:25');
 
 -- --------------------------------------------------------
 
@@ -71,6 +98,20 @@ INSERT INTO `orders` (`id`, `user_id`, `total_price`, `status`, `created_at`, `p
 (13, 4, '550000.00', 'pending', '2025-07-18 08:26:38', 'cod'),
 (14, 4, '550000.00', 'pending', '2025-07-18 08:28:31', 'cod'),
 (15, 5, '4052136.00', 'pending', '2025-07-21 05:16:18', 'cod');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_coupons`
+--
+
+CREATE TABLE `order_coupons` (
+  `id` int NOT NULL,
+  `order_id` int NOT NULL,
+  `coupon_id` int NOT NULL,
+  `discount_applied` decimal(10,2) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -172,7 +213,10 @@ INSERT INTO `product_reviews` (`id`, `product_id`, `user_id`, `rating`, `comment
 (1, 12, 5, 5, 'tốt', '2025-07-21 12:46:40'),
 (2, 12, 5, 4, 'tạm', '2025-07-21 12:48:38'),
 (3, 12, 5, 4, 'tạm', '2025-07-21 12:50:07'),
-(4, 12, 5, 1, 'kém', '2025-07-21 12:50:16');
+(4, 12, 5, 1, 'kém', '2025-07-21 12:50:16'),
+(6, 12, 4, 2, 'rất đẹp', '2025-07-21 13:20:12'),
+(7, 11, 4, 4, 'tôi rất thích sản phẩm này', '2025-07-21 13:23:25'),
+(8, 11, 4, 3, 'aaa', '2025-07-21 14:17:18');
 
 -- --------------------------------------------------------
 
@@ -331,11 +375,26 @@ ALTER TABLE `cart`
   ADD KEY `user_id` (`user_id`);
 
 --
+-- Indexes for table `coupons`
+--
+ALTER TABLE `coupons`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `code` (`code`);
+
+--
 -- Indexes for table `orders`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `order_coupons`
+--
+ALTER TABLE `order_coupons`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `order_id` (`order_id`),
+  ADD KEY `coupon_id` (`coupon_id`);
 
 --
 -- Indexes for table `order_items`
@@ -392,10 +451,22 @@ ALTER TABLE `cart`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
+-- AUTO_INCREMENT for table `coupons`
+--
+ALTER TABLE `coupons`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT for table `order_coupons`
+--
+ALTER TABLE `order_coupons`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `order_items`
@@ -449,6 +520,13 @@ ALTER TABLE `cart`
 --
 ALTER TABLE `orders`
   ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `order_coupons`
+--
+ALTER TABLE `order_coupons`
+  ADD CONSTRAINT `order_coupons_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `order_coupons_ibfk_2` FOREIGN KEY (`coupon_id`) REFERENCES `coupons` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `order_items`
