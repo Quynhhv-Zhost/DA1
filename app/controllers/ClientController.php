@@ -1,6 +1,7 @@
 <?php
 class ClientController extends Controller
 {
+
     public function home()
     {
         $productModel = $this->model('Product');
@@ -97,6 +98,9 @@ class ClientController extends Controller
     }
     public function addToCart($id)
     {
+        var_dump($_POST['variation_id']);
+        exit;
+
         if (session_status() === PHP_SESSION_NONE) session_start();
 
         $productModel = $this->model('Product');
@@ -107,24 +111,54 @@ class ClientController extends Controller
             exit;
         }
 
+        // Lấy thông tin biến thể từ POST (màu sắc và size)
+        $variationId = $_POST['variation_id'] ?? null;
+
+        // Tìm biến thể của sản phẩm
+        $variation = null;
+        if ($variationId) {
+            foreach ($product['variations'] as $v) {
+                if ($v['id'] == $variationId) {
+                    $variation = $v;
+                    break;
+                }
+            }
+        }
+
+        // Nếu không tìm thấy biến thể, điều hướng về trang chi tiết sản phẩm
+        if (!$variation) {
+            header('Location: ?url=client/product/detail/' . $id);
+            exit;
+        }
+
+        // Tính giá cuối cùng của biến thể (giá gốc cộng với price_diff)
+        $finalPrice = $product['price'] + $variation['price_diff'];
+        // Khởi tạo giỏ hàng nếu chưa có
         if (!isset($_SESSION['cart'])) $_SESSION['cart'] = [];
 
         $found = false;
+        // Kiểm tra nếu sản phẩm và biến thể đã có trong giỏ hàng
         foreach ($_SESSION['cart'] as &$item) {
-            if ($item['id'] == $product['id']) {
+            if ($item['id'] == $product['id'] && $item['variation_id'] == $variationId) {
+                // Nếu đã có sản phẩm và biến thể trong giỏ hàng, tăng số lượng
                 $item['quantity']++;
+                $item['price'] = $finalPrice;  // Cập nhật giá biến thể
                 $found = true;
                 break;
             }
         }
 
+        // Nếu không tìm thấy sản phẩm trong giỏ hàng, thêm mới
         if (!$found) {
             $_SESSION['cart'][] = [
                 'id' => $product['id'],
                 'name' => $product['name'],
-                'price' => $product['price'],
+                'price' => $finalPrice,  // Lưu giá cuối cùng của biến thể
                 'image' => $product['image'],
-                'quantity' => 1
+                'quantity' => 1,
+                'variation_id' => $variationId,
+                'variation_name' => $variation['variation_name'],
+                'final_price' => $finalPrice // Lưu giá cuối cùng
             ];
         }
 

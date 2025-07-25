@@ -47,6 +47,11 @@
                 <?php endforeach; ?>
             </div>
         <?php endif; ?>
+
+        <!-- Thêm nút quay lại trang chủ -->
+        <div class="mt-8 text-center">
+            <a href="?url=client/home" class="inline-block px-6 py-3 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 transition">Quay lại trang chủ</a>
+        </div>
     </div>
 
 </body>

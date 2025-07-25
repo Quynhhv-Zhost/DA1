@@ -38,14 +38,20 @@
                         <p>Số lượng: <strong><?= (int) ($item['quantity'] ?? 0) ?></strong></p>
                     </div>
                     <div class="text-lg font-semibold text-red-600">
-                        <?= number_format(($item['price'] ?? 0) * ($item['quantity'] ?? 0), 0, ',', '.') ?> VND
+                        <?= number_format($data['order']['total_price'], 0, ',', '.') ?> VND
                     </div>
+
                 </div>
             <?php endforeach; ?>
         </div>
 
         <div class="mt-8 text-center">
             <a href="?url=client/orders" class="inline-block px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition">Quay lại danh sách đơn hàng</a>
+        </div>
+
+        <!-- Thêm nút quay lại trang chủ -->
+        <div class="mt-4 text-center">
+            <a href="?url=client/home" class="inline-block px-6 py-3 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 transition">Quay lại trang chủ</a>
         </div>
     </div>
 

@@ -26,21 +26,33 @@
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($order['items'] as $item) : ?>
+        <?php foreach ($data['order']['items'] as $item) : ?>
             <tr>
-                <td><img src="/DA1/code/public/assets/images/<?= htmlspecialchars($item['image']) ?>" width="60" class="rounded"></td>
+                <td>
+                    <div class="product-item">
+                        <img src="/DA1/code/public/assets/images/<?= htmlspecialchars($item['image']) ?>" width="60" class="rounded">
+                    </div>
+                </td>
                 <td><?= htmlspecialchars($item['product_name']) ?></td>
                 <td><?= htmlspecialchars($item['color']) ?></td>
                 <td><?= htmlspecialchars($item['size']) ?></td>
                 <td><?= $item['quantity'] ?></td>
-                <td><?= number_format($item['price'], 0, ',', '.') ?> VND</td>
-                <td><?= number_format($item['price'] * $item['quantity'], 0, ',', '.') ?> VND</td>
+                <td>
+                    <!-- Hiển thị giá cuối cùng (final_price) đã tính VAT -->
+                    <?= isset($item['final_price_with_vat']) ? number_format($item['final_price_with_vat'], 0, ',', '.') : '0' ?> VND
+                </td>
+                <td>
+                    <!-- Tính tổng tiền cho sản phẩm (final_price * quantity) -->
+                    <?= isset($item['final_price_with_vat']) ? number_format($item['final_price_with_vat'] * $item['quantity'], 0, ',', '.') : '0' ?> VND
+                </td>
             </tr>
         <?php endforeach; ?>
+
+
     </tbody>
 </table>
 <div class="mt-3 text-end">
-    <strong>Tổng cộng: <span class="text-danger"><?= number_format($order['total_price'], 0, ',', '.') ?> VND</span></strong>
+    <strong>Tổng cộng: <span class="text-danger"><?= number_format($order['total_price'], 0, ',', '.') ?> VND</span></strong> <!-- Tổng tiền đơn hàng -->
 </div>
 
 <!-- Form đổi trạng thái -->
@@ -49,7 +61,7 @@
         <div class="input-group">
             <select name="status" class="form-select" required>
                 <option value="pending" <?= $order['status'] == 'pending' ? 'selected' : '' ?>>Chờ duyệt</option>
-                <option value="completed" <?= $order['status'] == 'completed' ? 'selected' : '' ?>>Đã duyệt/Giao thành công</option>
+                <option value="completed" <?= $order['status'] == 'completed' ? 'selected' : '' ?>>Đã duyệt/Giao cho vận chuyển</option>
                 <option value="canceled" <?= $order['status'] == 'canceled' ? 'selected' : '' ?>>Huỷ đơn</option>
             </select>
             <button type="submit" class="btn btn-success">Cập nhật</button>

@@ -12,6 +12,13 @@ class Controller
     public function view($view, $data = [])
     {
         extract($data);
-        require_once "../app/views/$view.php";
+
+        // Nếu là view admin, nhưng KHÔNG phải trang login
+        if (strpos($view, 'admin/') === 0 && $view !== 'admin/login') {
+            $content = "../app/views/$view.php";
+            require_once "../app/views/admin/layout.php";
+        } else {
+            require_once "../app/views/$view.php";
+        }
     }
 }

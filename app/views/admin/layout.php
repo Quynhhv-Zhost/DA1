@@ -54,8 +54,9 @@
             <!-- Main Content -->
             <main class="col-md-10 px-4 py-4">
                 <?php
-                // Nạp view con tương ứng
-                if (!empty($content)) require __DIR__ . '/' . basename($content);
+                if (!empty($content) && file_exists($content)) {
+                    require $content;
+                }
                 ?>
             </main>
         </div>

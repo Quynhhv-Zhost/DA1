@@ -6,9 +6,8 @@ class ProductController extends Controller
         $this->checkAdmin();
         $productModel = $this->model('Product');
         $products = $productModel->getAll();
-        // Sử dụng layout tổng, truyền file view con vào 'content'
-        $this->view('admin/layout', [
-            'content' => 'admin/product-list.php',
+        // Gọi view con, KHÔNG gọi layout
+        $this->view('admin/product-list', [
             'products' => $products
         ]);
     }
@@ -54,15 +53,12 @@ class ProductController extends Controller
                 header('Location: ?url=product/index');
                 exit;
             } else {
-                $this->view('admin/layout', [
-                    'content' => 'admin/product-add.php',
+                $this->view('admin/product-add', [
                     'errors' => $errors
                 ]);
             }
         } else {
-            $this->view('admin/layout', [
-                'content' => 'admin/product-add.php'
-            ]);
+            $this->view('admin/product-add');
         }
     }
 
@@ -111,15 +107,13 @@ class ProductController extends Controller
                 header('Location: ?url=product/index');
                 exit;
             } else {
-                $this->view('admin/layout', [
-                    'content' => 'admin/product-edit.php',
+                $this->view('admin/product-edit', [
                     'product' => $product,
                     'errors' => $errors
                 ]);
             }
         } else {
-            $this->view('admin/layout', [
-                'content' => 'admin/product-edit.php',
+            $this->view('admin/product-edit', [
                 'product' => $product
             ]);
         }
