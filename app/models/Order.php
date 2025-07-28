@@ -1,14 +1,16 @@
 <?php
 class Order extends Database
 {
-    public function createOrder($userId, $totalPrice, $paymentMethod)
-    {
-        $this->query(
-            "INSERT INTO orders (user_id, total_price, payment_method, status) VALUES (?, ?, ?, 'pending')",
-            [$userId, $totalPrice, $paymentMethod]
-        );
-        return $this->pdo->lastInsertId();
-    }
+   public function createOrder($userId, $totalPrice, $paymentMethod, $discount = 0, $couponCode = null, $address = '', $phone = '')
+{
+    $this->query(
+        "INSERT INTO orders (user_id, total_price, payment_method, status, discount, coupon_code, address, phone)
+         VALUES (?, ?, ?, 'pending', ?, ?, ?, ?)",
+        [$userId, $totalPrice, $paymentMethod, $discount, $couponCode, $address, $phone]
+    );
+    return $this->pdo->lastInsertId();
+}
+
 
     public function addOrderItems($orderId, $cartItems)
     {

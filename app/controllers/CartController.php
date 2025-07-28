@@ -1,7 +1,9 @@
 <?php
 class CartController extends Controller
 {
+    
     // Trong CartController
+
     public function show()
     {
         if (session_status() === PHP_SESSION_NONE) session_start();
@@ -98,37 +100,59 @@ class CartController extends Controller
         $this->view('client/checkout', ['cart' => $cart]);
     }
     public function checkoutSubmit()
-    {
-        if (session_status() === PHP_SESSION_NONE) session_start();
-        if (!isset($_SESSION['user'])) {
-            header('Location: ?url=client/showLoginForm');
-            exit;
-        }
+{
+    if (session_status() === PHP_SESSION_NONE) session_start();
 
-        $userId = $_SESSION['user']['id'];
-        $address = $_POST['address'] ?? '';
-        $phone = $_POST['phone'] ?? '';
-        $paymentMethod = $_POST['payment_method'] ?? 'cod';
-        $totalPrice = $_POST['total_price'] ?? 0;
-
-        $cartModel = $this->model('Cart');
-        $cart = $cartModel->getCartWithProductInfo($userId);
-
-        if (empty($cart)) {
-            header('Location: ?url=cart/show');
-            exit;
-        }
-
-        $orderModel = $this->model('Order');
-        $orderId = $orderModel->createOrder($userId, $totalPrice, $paymentMethod, $address, $phone);
-        $orderModel->addOrderItems($orderId, $cart);
-
-        // Xóa giỏ hàng
-        $cartModel->clearCart($userId);
-
-        header('Location: ?url=cart/checkoutSuccess&order_id=' . $orderId);
+    // Nếu chưa đăng nhập thì chuyển về trang đăng nhập
+    if (!isset($_SESSION['user'])) {
+        header('Location: ?url=client/showLoginForm');
         exit;
     }
+
+    // Lấy thông tin người dùng và dữ liệu từ form
+    $userId = $_SESSION['user']['id'];
+    $address = $_POST['address'] ?? '';
+    $phone = $_POST['phone'] ?? '';
+    $paymentMethod = $_POST['payment_method'] ?? 'cod';
+    $totalPrice = $_POST['total_price'] ?? 0;
+
+    // Lấy mã giảm giá nếu có trong session
+    $discount = $_SESSION['coupon']['discount'] ?? 0;
+    $couponCode = $_SESSION['coupon']['code'] ?? null;
+
+    // Lấy giỏ hàng
+    $cartModel = $this->model('Cart');
+    $cart = $cartModel->getCartWithProductInfo($userId);
+
+    // Nếu giỏ hàng trống thì chuyển hướng về trang giỏ hàng
+    if (empty($cart)) {
+        header('Location: ?url=cart/show');
+        exit;
+    }
+
+    // Tạo đơn hàng
+    $orderModel = $this->model('Order');
+    $orderId = $orderModel->createOrder(
+        $userId,
+        $totalPrice,
+        $paymentMethod,
+        $discount,
+        $couponCode,
+        $address,
+        $phone
+    );
+
+    // Thêm các sản phẩm trong đơn hàng
+    $orderModel->addOrderItems($orderId, $cart);
+
+    // Xóa giỏ hàng sau khi đặt hàng thành công
+    $cartModel->clearCart($userId);
+
+    // Chuyển đến trang thông báo thành công
+    header('Location: ?url=cart/checkoutSuccess&order_id=' . $orderId);
+    exit;
+}
+
 
     public function checkoutSuccess()
     {

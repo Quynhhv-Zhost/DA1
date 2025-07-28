@@ -52,6 +52,51 @@ class OrderController
         exit;
     }
 
+    public function placeOrder()
+{
+    session_start();
+
+    // Lấy dữ liệu từ session
+    $userId = $_SESSION['user']['id'] ?? 0;
+    $cart = $_SESSION['cart'] ?? [];
+    $paymentMethod = $_POST['payment_method'] ?? 'cod';
+
+    if (empty($cart)) {
+        $_SESSION['order_message'] = "❌ Giỏ hàng trống, không thể đặt hàng.";
+        header("Location: " . $_SERVER['HTTP_REFERER']);
+        exit;
+    }
+
+    // Tính tổng
+    $total = 0;
+    foreach ($cart as $item) {
+        $total += $item['price'] * $item['quantity'];
+    }
+
+    $vat = $total * 0.1;
+    $discount = $_SESSION['coupon']['discount'] ?? 0;
+    $couponCode = $_SESSION['coupon']['code'] ?? null;
+
+    // Tổng cuối cùng
+    $grandTotal = $total + $vat - $discount;
+
+    // Gọi model để lưu đơn hàng
+    require_once __DIR__ . '/../models/Order.php';
+    $orderModel = new Order();
+    $orderId = $orderModel->createOrder($userId, $grandTotal, $paymentMethod, $discount, $couponCode);
+
+    // Lưu sản phẩm vào bảng order_items
+    $orderModel->addOrderItems($orderId, $cart);
+
+    // Xóa giỏ hàng và mã
+    unset($_SESSION['cart'], $_SESSION['coupon']);
+
+    // Chuyển về trang chi tiết đơn hàng
+    header("Location: ?url=client/orderDetail&id=" . $orderId);
+    exit;
+}
+
+
     public function checkout()
     {
         session_start();

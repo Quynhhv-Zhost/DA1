@@ -17,11 +17,26 @@
             <p class="text-lg"><strong>Trạng thái:</strong>
                 <span class="font-semibold text-blue-600"><?= htmlspecialchars($data['order']['status']) ?></span>
             </p>
+            <p><strong>Địa chỉ nhận hàng:</strong> <?= htmlspecialchars($data['order']['address']) ?></p>
+            <p><strong>Số điện thoại:</strong> <?= htmlspecialchars($data['order']['phone']) ?></p>
+
             <p class="text-lg"><strong>Phương thức thanh toán:</strong> <?= htmlspecialchars($data['order']['payment_method']) ?></p>
             <p class="text-lg"><strong>Ngày đặt hàng:</strong> <?= htmlspecialchars($data['order']['created_at']) ?></p>
-            <p class="text-lg"><strong>Tổng tiền:</strong>
-                <span class="font-bold text-red-600"><?= number_format($data['order']['total_price'], 0, ',', '.') ?> VND</span>
+            <?php
+            $total = $data['order']['total_price'];
+            $discount = $data['order']['discount'] ?? 0;
+            $finalTotal = $total - $discount;
+            ?>
+            <p class="text-lg"><strong>Tổng tiền thanh toán:</strong>
+                <span class="font-bold text-red-600"><?= number_format($finalTotal, 0, ',', '.') ?> VND</span>
             </p>
+
+            <?php if (!empty($data['order']['discount'])) : ?>
+                <p class="text-lg text-green-700">
+                    <strong>Đã áp mã: <?= htmlspecialchars($data['order']['coupon_code']) ?></strong> – giảm <?= number_format($data['order']['discount'], 0, ',', '.') ?> VND
+                </p>
+            <?php endif; ?>
+
         </div>
 
         <h2 class="text-2xl font-bold mb-4 border-b pb-2">Danh sách sản phẩm</h2>
