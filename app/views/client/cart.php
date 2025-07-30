@@ -83,7 +83,7 @@
                                         <div class="text-sm text-gray-600">Loại: <?= $variation_name ?> | Màu: <?= $color ?> | Size: <?= $size ?></div>
                                     </td>
                                     <td class="px-4 py-2">
-                                        <img src="/DA1/code/public/assets/images/<?= htmlspecialchars($item['image']) ?>" width="80" class="rounded-lg">
+                                        <img src="/DA1/public/assets/images/<?= htmlspecialchars($item['image']) ?>" width="80" class="rounded-lg">
                                     </td>
                                     <td class="px-4 py-2"><?= number_format($price, 0, ',', '.') ?> VND</td>
                                     <td class="px-4 py-2"><?= $quantity ?></td>

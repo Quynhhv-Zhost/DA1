@@ -31,7 +31,7 @@
                 $image = htmlspecialchars($item['image'] ?? 'default.jpg');
             ?>
                 <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-lg border">
-                    <img src="/DA1/code/public/assets/images/<?= $image ?>" alt="Ảnh sản phẩm" class="w-24 h-24 object-cover rounded">
+                    <img src="/DA1/public/assets/images/<?= $image ?>" alt="Ảnh sản phẩm" class="w-24 h-24 object-cover rounded">
                     <div class="flex-grow">
                         <p class="text-xl font-bold"><?= htmlspecialchars($item['product_name'] ?? 'Tên SP') ?></p>
                         <p class="text-gray-700">Màu: <?= htmlspecialchars($item['color'] ?? '-') ?> | Size: <?= htmlspecialchars($item['size'] ?? '-') ?></p>

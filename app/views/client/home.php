@@ -106,6 +106,7 @@
                     <li class="nav-item"><a class="nav-link" href="?url=client/list">👟 Sản phẩm</a></li>
                     <li class="nav-item"><a class="nav-link" href="?url=client/about">📖 Giới thiệu</a></li>
                     <li class="nav-item"><a class="nav-link" href="?url=client/contact">📞 Liên hệ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="?url=client/cart">🛒 Giỏ hàng</a></li>
                     <li class="nav-item">
 
                         <?php if (isset($_SESSION['user']) && is_array($_SESSION['user']) && isset($_SESSION['user']['username'])) : ?>

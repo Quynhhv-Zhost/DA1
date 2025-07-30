@@ -41,7 +41,10 @@
                             <p><span class="font-semibold">Tổng tiền:</span> <span class="text-red-600 font-bold text-lg"><?= number_format($order['total_price'], 0, ',', '.') ?> VND</span></p>
                         </div>
                         <div class="mt-4 md:mt-0">
-                            <a href="?url=client/orderDetail&id=<?= $order['id'] ?>" class="inline-block px-6 py-3 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600 transition w-full md:w-auto text-center">Xem chi tiết</a>
+                            <a href="?url=client/orderDetail/<?= $order['id'] ?>" class="inline-block px-6 py-3 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600 transition w-full md:w-auto text-center">
+                                Xem chi tiết
+                            </a>
+
                         </div>
                     </div>
                 <?php endforeach; ?>
