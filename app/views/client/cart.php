@@ -17,6 +17,7 @@
             <div class="space-x-4 text-gray-700 font-medium">
                 <a href="?url=client/home" class="hover:text-yellow-600" class="nav-link active">🏠 Trang chủ</a>
                 <a href="?url=client/list" class="hover:text-yellow-600">👟 Sản phẩm</a>
+                <a href="?url=cart/show" class="hover:text-yellow-600">🛒 Xem giỏ hàng</a>
                 <a href="?url=client/about" class="hover:text-yellow-600">📖 Giới thiệu</a>
                 <a href="?url=client/contact" class="hover:text-yellow-600">📞 Liên hệ</a>
                 <?php if (isset($_SESSION['user']) && is_array($_SESSION['user']) && isset($_SESSION['user']['username'])) : ?>
@@ -83,7 +84,7 @@
                                         <div class="text-sm text-gray-600">Loại: <?= $variation_name ?> | Màu: <?= $color ?> | Size: <?= $size ?></div>
                                     </td>
                                     <td class="px-4 py-2">
-                                        <img src="/DA1/code/public/assets/images/<?= htmlspecialchars($item['image']) ?>" width="80" class="rounded-lg">
+                                        <img src="/DA1/public/assets/images/<?= htmlspecialchars($item['image']) ?>" width="80" class="rounded-lg">
                                     </td>
                                     <td class="px-4 py-2"><?= number_format($price, 0, ',', '.') ?> VND</td>
                                     <td class="px-4 py-2"><?= $quantity ?></td>

@@ -134,4 +134,29 @@ class ProductController extends Controller
             exit;
         }
     }
+    public function detail($id)
+    {
+        $productModel = $this->model('Product');
+        $reviewModel = $this->model('Review');
+
+        $product = $productModel->getById($id);
+
+        if (!$product) {
+            $this->view('client/product-detail', ['product' => null]);
+            return;
+        }
+
+        // Lấy các biến khác nếu có (biến thể, màu, size...)
+        $variations = $productModel->getVariationsByProductId($id); // nếu có
+
+        // ✅ Lấy danh sách đánh giá
+        $reviews = $reviewModel->getReviewsByProductId($id);
+
+        // Gửi dữ liệu xuống view
+        $this->view('client/product-detail', [
+            'product' => $product,
+            'variations' => $variations ?? [],
+            'reviews' => $reviews
+        ]);
+    }
 }

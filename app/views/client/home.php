@@ -90,7 +90,6 @@
 </head>
 
 <body>
-<<<<<<< HEAD
     <!-- Bootstrap Carousel JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -107,28 +106,12 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link active" href="" ?url="?url=client/home">🏠 Trang chủ</a></li>
                     <li class="nav-item"><a class="nav-link" href="?url=client/list">👟 Sản phẩm</a></li>
+                    <li class="nav-item"><a class="nav-link" href="?url=cart/show">🛒 Xem giỏ hàng</a></li>
                     <li class="nav-item"><a class="nav-link" href="?url=client/about">📖 Giới thiệu</a></li>
                     <li class="nav-item"><a class="nav-link" href="?url=client/contact">📞 Liên hệ</a></li>
                     <li class="nav-item">
 
                         <?php if (isset($_SESSION['user']) && is_array($_SESSION['user']) && isset($_SESSION['user']['username'])) : ?>
-=======
-    <?php if (session_status() === PHP_SESSION_NONE) session_start(); ?>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 sticky-top">
-        <a class="navbar-brand" href="?url=client/home"><i class="fas fa-shoe-prints"></i> <span>ZSneaker</span></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link active" href="?url=client/home">Trang chủ</a></li>
-                <li class="nav-item"><a class="nav-link" href="#category">Danh mục</a></li>
-                <li class="nav-item"><a class="nav-link" href="#products">Sản phẩm</a></li>
-                <li class="nav-item"><a class="nav-link" href="#news">Tin tức</a></li>
-                <li class="nav-item"><a class="nav-link" href="#about">Giới thiệu</a></li>
-                <li class="nav-item"><a class="nav-link" href="#contact">Liên hệ</a></li>
-                <?php if (isset($_SESSION['user']['username'])) : ?>
->>>>>>> ebe0897 (update asm1)
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fas fa-user"></i> <?= htmlspecialchars($_SESSION['user']['username']) ?></a>
                         <ul class="dropdown-menu dropdown-menu-end">
@@ -141,7 +124,6 @@
                 </ul>
             </div>
     </nav>
-<<<<<<< HEAD
     <!-- Dang nhap thanh cong -->
     <?php if (session_status() === PHP_SESSION_NONE) session_start(); ?>
     <?php if (isset($_SESSION['success'])) : ?>
@@ -156,24 +138,11 @@
         <?php unset($_SESSION['success']); ?>
     <?php endif; ?>
     <!-- Banner -->
-    <!-- Banner (Slideshow) -->
-    <div id="bannerCarousel" class="carousel slide mb-4" data-bs-ride="carousel" data-bs-interval="3000">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="/DA1/public/assets/images/banner1.png" class="d-block w-100" style="height: 460px; object-fit: cover;" alt="Banner 1">
-            </div>
-            <div class="carousel-item">
-                <img src="/DA1/public/assets/images/banner2.jpg" class="d-block w-100" style="height: 460px; object-fit: cover;" alt="Banner 2">
-            </div>
-            <div class="carousel-item">
-                <img src="/DA1/public/assets/images/banner3.png" class="d-block w-100" style="height: 460px; object-fit: cover;" alt="Banner 3">
-=======
-
     <!-- Banner Carousel -->
     <div id="bannerCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="1500" data-bs-pause="false">
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="/DA1/code/public/assets/images/banner1.png" class="d-block w-100" alt="Banner 1">
+                <img src="/DA1/public/assets/images/banner1.png" class="d-block w-100" alt="Banner 1">
                 <div class="carousel-caption">
                     <h1>Chào mừng đến với ZSneaker</h1>
                     <p class="lead">Thế giới giày thể thao - Sneaker thời thượng chính hãng</p>
@@ -181,7 +150,7 @@
                 </div>
             </div>
             <div class="carousel-item">
-                <img src="/DA1/code/public/assets/images/banner2.jpg" class="d-block w-100" alt="Banner 2">
+                <img src="/DA1/public/assets/images/banner2.jpg" class="d-block w-100" alt="Banner 2">
                 <div class="carousel-caption">
                     <h1>Khám phá BST mới</h1>
                     <p class="lead">Giảm giá đặc biệt cho khách hàng thân thiết</p>
@@ -189,13 +158,12 @@
                 </div>
             </div>
             <div class="carousel-item">
-                <img src="/DA1/code/public/assets/images/banner3.png" class="d-block w-100" alt="Banner 3">
+                <img src="/DA1/public/assets/images/banner3.png" class="d-block w-100" alt="Banner 3">
                 <div class="carousel-caption">
                     <h1>Đừng bỏ lỡ siêu ưu đãi</h1>
                     <p class="lead">Giày chất lượng cao - giá tốt nhất</p>
                     <a href="#products" class="btn btn-cta mt-3">Mua ngay</a>
                 </div>
->>>>>>> ebe0897 (update asm1)
             </div>
         </div>
 
@@ -209,7 +177,7 @@
         </button>
     </div>
 
-<<<<<<< HEAD
+
 
 
     <!-- Sản phẩm nổi bật -->
@@ -221,11 +189,6 @@
 
         <!-- Vùng chứa sản phẩm và mũi tên -->
         <div class="arrow-wrapper">
-            <!-- Nút trái -->
-            <div class="arrow-container me-2">
-                <button id="prevBtn" class="arrow-btn" aria-label="Trước">&laquo;</button>
-            </div>
-
             <!-- Danh sách sản phẩm -->
             <div class="row g-4 flex-grow-1" id="productContainer">
                 <?php foreach ($data['products'] as $product) : ?>
@@ -238,163 +201,121 @@
                                 <p class="fw-bold text-danger"><?= number_format($product['price'], 0, ',', '.') ?> VND</p>
                                 <a href="?url=client/detail/<?= $product['id'] ?>" class="btn btn-outline-primary w-100">Xem chi tiết</a>
                             </div>
-=======
-    <section class="container py-5" id="products">
-        <h2 class="text-center section-title">Sản phẩm nổi bật</h2>
-        <div id="productSlider" class="position-relative overflow-hidden">
-            <div class="d-flex transition" id="productSliderInner">
-                <?php $chunks = array_chunk($data['products'], 8);
-                foreach ($chunks as $group) : ?>
-                    <div class="w-100 flex-shrink-0 px-3">
-                        <div class="row g-4">
-                            <?php foreach ($group as $product) : ?>
-                                <div class="col-md-3">
-                                    <div class="card product-card h-100">
-                                        <img src="/DA1/code/public/assets/images/<?= htmlspecialchars($product['image']) ?>" class="card-img-top">
-                                        <div class="card-body">
-                                            <h5 class="card-title"><?= htmlspecialchars($product['name']) ?></h5>
-                                            <p class="text-danger fw-bold"><?= number_format($product['price'], 0, ',', '.') ?> VND</p>
-                                            <a href="?url=client/detail/<?= $product['id'] ?>" class="btn btn-outline-dark w-100">Chi tiết</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php endforeach; ?>
->>>>>>> ebe0897 (update asm1)
                         </div>
                     </div>
                 <?php endforeach; ?>
             </div>
         </div>
-    </section>
+        </section>
+        <!-- Footer -->
+        <footer class="bg-light text-dark py-5 border-top">
+            <div class="container">
+                <div class="row">
+                    <!-- Cột 1: Về Uniqlo -->
+                    <div class="col-md-3">
+                        <h6 class="fw-bold">Về Uniqlo</h6>
+                        <ul class="list-unstyled">
+                            <li><a href="#" class="text-dark text-decoration-none">Thông tin</a></li>
+                            <li><a href="#" class="text-dark text-decoration-none">Danh sách cửa hàng</a></li>
+                            <li><a href="#" class="text-dark text-decoration-none">Cơ hội nghề nghiệp</a></li>
+                        </ul>
+                    </div>
 
-<<<<<<< HEAD
-    <!-- Footer -->
-    <footer class="bg-light text-dark py-5 border-top">
-        <div class="container">
-            <div class="row">
-                <!-- Cột 1: Về Uniqlo -->
-                <div class="col-md-3">
-                    <h6 class="fw-bold">Về Uniqlo</h6>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="text-dark text-decoration-none">Thông tin</a></li>
-                        <li><a href="#" class="text-dark text-decoration-none">Danh sách cửa hàng</a></li>
-                        <li><a href="#" class="text-dark text-decoration-none">Cơ hội nghề nghiệp</a></li>
-                    </ul>
+                    <!-- Cột 2: Trợ giúp -->
+                    <div class="col-md-3">
+                        <h6 class="fw-bold">Trợ giúp</h6>
+                        <ul class="list-unstyled">
+                            <li><a href="#" class="text-dark text-decoration-none">FAQ</a></li>
+                            <li><a href="#" class="text-dark text-decoration-none">Chính sách trả hàng</a></li>
+                            <li><a href="#" class="text-dark text-decoration-none">Chính sách bảo mật</a></li>
+                            <li><a href="#" class="text-dark text-decoration-none">Tiếp cận</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Cột 3: Tài khoản -->
+                    <div class="col-md-3">
+                        <h6 class="fw-bold">Tài khoản</h6>
+                        <ul class="list-unstyled">
+                            <li><a href="#" class="text-dark text-decoration-none">Tư cách thành viên</a></li>
+                            <li><a href="#" class="text-dark text-decoration-none">Hồ sơ</a></li>
+                            <li><a href="#" class="text-dark text-decoration-none">Coupons</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Cột 4: Bản tin điện tử -->
+                    <div class="col-md-3">
+                        <h6 class="fw-bold">Bản tin điện tử</h6>
+                        <p class="small">
+                            Đăng ký ngay để nhận thông tin về sản phẩm mới, chương trình khuyến mãi & sự kiện.
+                        </p>
+                        <a href="#" class="fw-bold text-dark">ĐĂNG KÝ NGAY</a>
+                    </div>
                 </div>
 
-                <!-- Cột 2: Trợ giúp -->
-                <div class="col-md-3">
-                    <h6 class="fw-bold">Trợ giúp</h6>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="text-dark text-decoration-none">FAQ</a></li>
-                        <li><a href="#" class="text-dark text-decoration-none">Chính sách trả hàng</a></li>
-                        <li><a href="#" class="text-dark text-decoration-none">Chính sách bảo mật</a></li>
-                        <li><a href="#" class="text-dark text-decoration-none">Tiếp cận</a></li>
-                    </ul>
+                <hr class="border-dark my-4" />
+
+                <!-- Tài khoản xã hội -->
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="mb-0 small">
+                            Cài đặt cookies |
+                            <a href="#" class="text-dark text-decoration-none">English</a> |
+                            <a href="#" class="text-dark text-decoration-none">Tiếng Việt</a>
+                        </p>
+                    </div>
+                    <div>
+                        <a href="#" class="text-dark me-3"><i class="fab fa-facebook fa-lg"></i></a>
+                        <a href="#" class="text-dark me-3"><i class="fab fa-instagram fa-lg"></i></a>
+                        <a href="#" class="text-dark me-3"><i class="fab fa-youtube fa-lg"></i></a>
+                        <a href="#" class="text-dark"><i class="fab fa-tiktok fa-lg"></i></a>
+                    </div>
                 </div>
 
-                <!-- Cột 3: Tài khoản -->
-                <div class="col-md-3">
-                    <h6 class="fw-bold">Tài khoản</h6>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="text-dark text-decoration-none">Tư cách thành viên</a></li>
-                        <li><a href="#" class="text-dark text-decoration-none">Hồ sơ</a></li>
-                        <li><a href="#" class="text-dark text-decoration-none">Coupons</a></li>
-                    </ul>
-                </div>
+                <hr class="border-dark my-4" />
 
-                <!-- Cột 4: Bản tin điện tử -->
-                <div class="col-md-3">
-                    <h6 class="fw-bold">Bản tin điện tử</h6>
-                    <p class="small">
-                        Đăng ký ngay để nhận thông tin về sản phẩm mới, chương trình khuyến mãi & sự kiện.
-                    </p>
-                    <a href="#" class="fw-bold text-dark">ĐĂNG KÝ NGAY</a>
-                </div>
-            </div>
-
-            <hr class="border-dark my-4" />
-
-            <!-- Tài khoản xã hội -->
-            <div class="d-flex justify-content-between align-items-center">
-                <div>
-                    <p class="mb-0 small">
-                        Cài đặt cookies |
-                        <a href="#" class="text-dark text-decoration-none">English</a> |
-                        <a href="#" class="text-dark text-decoration-none">Tiếng Việt</a>
-                    </p>
-                </div>
-                <div>
-                    <a href="#" class="text-dark me-3"><i class="fab fa-facebook fa-lg"></i></a>
-                    <a href="#" class="text-dark me-3"><i class="fab fa-instagram fa-lg"></i></a>
-                    <a href="#" class="text-dark me-3"><i class="fab fa-youtube fa-lg"></i></a>
-                    <a href="#" class="text-dark"><i class="fab fa-tiktok fa-lg"></i></a>
-                </div>
-            </div>
-
-            <hr class="border-dark my-4" />
-
-            <!-- Bản quyền -->
-            <div class="text-center">
-                <p class="mb-0 small">BẢN QUYỀN THUỘC CÔNG TY TNHH UNIQLO. BẢO LƯU MỌI QUYỀN.</p>
-            </div>
-        </div>
-    </footer>
-
-
-    <!-- JS -->
-=======
-    <footer class="footer mt-5" id="contact">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <h5>ZSneaker</h5>
-                    <p>Giày chính hãng - Phong cách trẻ trung - Phù hợp mọi đối tượng.</p>
-                </div>
-                <div class="col-md-4">
-                    <h5>Liên hệ</h5>
-                    <p>Email: support@zsneaker.vn</p>
-                    <p>Hotline: 1900 8888</p>
-                </div>
-                <div class="col-md-4">
-                    <h5>Kết nối</h5>
-                    <a href="#"><i class="fab fa-facebook fa-lg"></i></a>
-                    <a href="#"><i class="fab fa-instagram fa-lg"></i></a>
-                    <a href="#"><i class="fab fa-youtube fa-lg"></i></a>
+                <!-- Bản quyền -->
+                <div class="text-center">
+                    <p class="mb-0 small">BẢN QUYỀN THUỘC CÔNG TY TNHH UNIQLO. BẢO LƯU MỌI QUYỀN.</p>
                 </div>
             </div>
-            <hr>
-            <p class="text-center mb-0">&copy; <?= date('Y') ?> ZSneaker. All rights reserved.</p>
-        </div>
-    </footer>
+        </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
->>>>>>> ebe0897 (update asm1)
-    <script>
-        const slider = document.getElementById("productSliderInner");
-        const slides = slider.children.length;
-        let index = 0;
-        let interval;
 
-        function showSlide(i) {
-            slider.style.transform = `translateX(-${i * 100}%)`;
-            slider.style.transition = "transform 0.6s ease-in-out";
-        }
+        <!-- JS -->
+        <script>
+            const slider = document.getElementById("productSliderInner");
 
-        function startSlider() {
-            interval = setInterval(() => {
-                index = (index + 1) % slides;
-                showSlide(index);
-            }, 2000);
-        }
+            if (slider) {
+                const slides = slider.children.length;
+                let index = 0;
+                let interval;
 
-        function stopSlider() {
-            clearInterval(interval);
-        }
-        document.getElementById("productSlider").addEventListener("mouseenter", stopSlider);
-        document.getElementById("productSlider").addEventListener("mouseleave", startSlider);
-        startSlider();
-    </script>
+                function showSlide(i) {
+                    slider.style.transform = `translateX(-${i * 100}%)`;
+                    slider.style.transition = "transform 0.6s ease-in-out";
+                }
+
+                function startSlider() {
+                    interval = setInterval(() => {
+                        index = (index + 1) % slides;
+                        showSlide(index);
+                    }, 2000);
+                }
+
+                function stopSlider() {
+                    clearInterval(interval);
+                }
+
+                const productSlider = document.getElementById("productSlider");
+                if (productSlider) {
+                    productSlider.addEventListener("mouseenter", stopSlider);
+                    productSlider.addEventListener("mouseleave", startSlider);
+                }
+
+                startSlider();
+            }
+        </script>
+
 </body>
 
 </html>

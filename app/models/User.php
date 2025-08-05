@@ -1,26 +1,64 @@
 <?php
 
-require_once __DIR__ . '/../../core/Database.php';
-
-class User
+class User extends Database
 {
-    private $db;
-
-    public function __construct()
-    {
-        $this->db = new Database();
-    }
-
+    // Lấy người dùng theo tên đăng nhập
     public function getUserByUsername($username)
     {
         $sql = "SELECT * FROM users WHERE username = ?";
-        $stmt = $this->db->query($sql, [$username]);
+        $stmt = $this->query($sql, [$username]);
         return $stmt->fetch();
     }
+
+    // Tạo người dùng (đăng ký đơn giản)
     public function createUser($username, $password)
     {
-        $hash = md5($password); // hoặc password_hash() nếu muốn bảo mật hơn
+        $hash = password_hash($password, PASSWORD_DEFAULT); // bảo mật tốt hơn md5
         $sql = "INSERT INTO users (username, password, role) VALUES (?, ?, 'user')";
-        $this->db->query($sql, [$username, $hash]);
+        return $this->query($sql, [$username, $hash]);
+    }
+
+    // Lấy tất cả người dùng
+    public function all()
+    {
+        return $this->query("SELECT * FROM users ORDER BY id DESC")->fetchAll();
+    }
+
+    // Tìm người dùng theo ID
+    public function find($id)
+    {
+        return $this->query("SELECT * FROM users WHERE id = ?", [$id])->fetch();
+    }
+
+    // Tạo người dùng với role tùy chọn
+    public function create($username, $password, $role)
+    {
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+        return $this->query(
+            "INSERT INTO users (username, password, role) VALUES (?, ?, ?)",
+            [$username, $hash, $role]
+        );
+    }
+
+    // Cập nhật người dùng
+    public function update($id, $data)
+    {
+        return $this->query(
+            "UPDATE users SET username = ?, role = ? WHERE id = ?",
+            [$data['username'], $data['role'], $id]
+        );
+    }
+
+    // Xóa người dùng
+    public function delete($id)
+    {
+        // Kiểm tra xem user có đơn hàng không
+        $hasOrders = $this->query("SELECT COUNT(*) FROM orders WHERE user_id = ?", [$id])->fetchColumn();
+        if ($hasOrders > 0) {
+            throw new Exception("Không thể xóa người dùng vì đã có đơn hàng.");
+        }
+
+        // Nếu không có đơn hàng thì xóa
+        return $this->query("DELETE FROM users WHERE id = ?", [$id]);
     }
 }
