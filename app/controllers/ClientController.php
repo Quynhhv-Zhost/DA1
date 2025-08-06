@@ -41,7 +41,8 @@ class ClientController extends Controller
         $userModel = $this->model('User');
         $user = $userModel->getUserByUsername($username);
 
-        if ($user && $user['role'] === 'user' && $user['password'] === md5($password)) {
+        if ($user && $user['role'] === 'user' && password_verify($password, $user['password'])) {
+
             $_SESSION['user'] = $user;
             $_SESSION['success'] = "Đăng nhập thành công!";
             header('Location: ?url=client/home');

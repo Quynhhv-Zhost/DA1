@@ -16,9 +16,11 @@
   </div>
 
   <div class="mb-3">
-    <label class="form-label">Mật khẩu mới (nếu đổi)</label>
-    <input type="password" name="password" class="form-control" placeholder="Để trống nếu không thay đổi">
+    <label class="form-label">Mật khẩu mới</label>
+    <input type="password" name="password" class="form-control" placeholder="(Để trống nếu không đổi)">
+    <small class="text-muted">Để trống nếu bạn không muốn thay đổi mật khẩu</small>
   </div>
+
 
   <div class="mb-3">
     <label class="form-label">Vai trò</label>
