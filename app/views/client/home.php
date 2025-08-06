@@ -1,3 +1,4 @@
+<?php if (session_status() === PHP_SESSION_NONE) session_start(); ?>
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -323,7 +324,8 @@
         showPage(currentPage); // Hiển thị trang đầu tiên
     </script>
     <!-- JS -->
-
+        
+    <!-- chat popup cho trang chủ -->
+      <?php include 'chat_popup.php'; ?>
 </body>
-
 </html>
