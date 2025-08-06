@@ -57,18 +57,30 @@ class UserController extends Controller
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $username = trim($_POST['username'] ?? '');
       $role = $_POST['role'] ?? 'user';
+      $password = $_POST['password'] ?? ''; // Lấy mật khẩu mới (nếu có)
       $errors = [];
 
       if (empty($username)) $errors[] = "Tên đăng nhập không được để trống";
+      if (!empty($password) && strlen($password) < 6) $errors[] = "Mật khẩu phải ít nhất 6 ký tự";
 
       if (empty($errors)) {
-        $userModel->update($id, [
+        $dataToUpdate = [
           'username' => $username,
           'role' => $role
-        ]);
+        ];
+
+        // Nếu có nhập mật khẩu mới → cập nhật thêm
+        if (!empty($password)) {
+          $dataToUpdate['password'] = password_hash($password, PASSWORD_DEFAULT);
+        }
+
+        $userModel->update($id, $dataToUpdate);
+
         header('Location: ?url=user/index');
         exit;
       } else {
+        $user['username'] = $username;
+        $user['role'] = $role;
         $this->view('admin/user-edit', [
           'user' => $user,
           'errors' => $errors

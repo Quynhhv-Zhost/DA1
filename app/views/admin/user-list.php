@@ -20,6 +20,7 @@
           <tr class="text-center">
             <th style="width: 5%;">ID</th>
             <th style="width: 30%;">👤 Username</th>
+            <th style="width: 20%;">👤 Password</th>
             <th style="width: 20%;">🔐 Vai trò</th>
             <th style="width: 25%;">⚙️ Hành động</th>
           </tr>
@@ -30,6 +31,7 @@
               <tr class="text-center">
                 <td><?= $user['id'] ?></td>
                 <td class="text-start"><?= htmlspecialchars($user['username']) ?></td>
+                <td class="text-start"><?= htmlspecialchars($user['password']) ?></td>
                 <td><span class="badge bg-danger">Admin</span></td>
                 <td>
                   <a href="?url=user/edit/<?= $user['id'] ?>" class="btn btn-sm btn-warning me-1">✏️ Sửa</a>
@@ -57,6 +59,7 @@
           <tr class="text-center">
             <th style="width: 5%;">ID</th>
             <th style="width: 30%;">👤 Username</th>
+            <th style="width: 20%;">👤 Password</th>
             <th style="width: 20%;">🔐 Vai trò</th>
             <th style="width: 25%;">⚙️ Hành động</th>
           </tr>
@@ -67,6 +70,7 @@
               <tr class="text-center">
                 <td><?= $user['id'] ?></td>
                 <td class="text-start"><?= htmlspecialchars($user['username']) ?></td>
+                <td class="text-start"><?= htmlspecialchars($user['password']) ?></td>
                 <td><span class="badge bg-secondary">User</span></td>
                 <td>
                   <a href="?url=user/edit/<?= $user['id'] ?>" class="btn btn-sm btn-warning me-1">✏️ Sửa</a>

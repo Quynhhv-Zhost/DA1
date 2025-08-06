@@ -16,6 +16,11 @@
   </div>
 
   <div class="mb-3">
+    <label class="form-label">Mật khẩu mới (nếu đổi)</label>
+    <input type="password" name="password" class="form-control" placeholder="Để trống nếu không thay đổi">
+  </div>
+
+  <div class="mb-3">
     <label class="form-label">Vai trò</label>
     <select name="role" class="form-control">
       <option value="user" <?= $data['user']['role'] === 'user' ? 'selected' : '' ?>>User</option>

@@ -43,11 +43,23 @@ class User extends Database
     // Cập nhật người dùng
     public function update($id, $data)
     {
-        return $this->query(
-            "UPDATE users SET username = ?, role = ? WHERE id = ?",
-            [$data['username'], $data['role'], $id]
-        );
+        $fields = [];
+        $params = [];
+
+        foreach ($data as $key => $value) {
+            // Nếu cập nhật mật khẩu, hãy hash lại
+            if ($key === 'password') {
+                $value = password_hash($value, PASSWORD_DEFAULT);
+            }
+            $fields[] = "$key = ?";
+            $params[] = $value;
+        }
+
+        $params[] = $id;
+        $sql = "UPDATE users SET " . implode(', ', $fields) . " WHERE id = ?";
+        return $this->query($sql, $params);
     }
+
 
     // Xóa người dùng
     public function delete($id)
