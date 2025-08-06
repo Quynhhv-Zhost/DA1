@@ -291,6 +291,7 @@
       </div>
     </div>
   </footer>
+          <?php include 'chat_popup.php'; ?>
 
 </body>
 

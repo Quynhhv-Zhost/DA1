@@ -48,6 +48,7 @@
             </div>
         <?php endif; ?>
     </div>
+    <?php include 'chat_popup.php'; ?>
 
 </body>
 

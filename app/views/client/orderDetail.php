@@ -63,6 +63,7 @@
             <a href="?url=client/orders" class="inline-block px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition">Quay lại danh sách đơn hàng</a>
         </div>
     </div>
+    <?php include 'chat_popup.php'; ?>
 
 </body>
 

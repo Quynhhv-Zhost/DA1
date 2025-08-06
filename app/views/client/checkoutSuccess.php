@@ -31,6 +31,7 @@
             Xem chi tiết đơn hàng
         </a>
     </div>
+    <?php include 'chat_popup.php'; ?>
 
 </body>
 

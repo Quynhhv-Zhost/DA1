@@ -92,16 +92,19 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                 <!-- tìm kiếm sản phẩm -->
-             <form method="GET" action="" class="d-flex me-auto">
-        <input type="hidden" name="url" value="client/home">
-        <input type="text" name="search" class="form-control me-2"
-               placeholder="Tìm sản phẩm..."
-               value="<?= htmlspecialchars($data['search'] ?? '') ?>">
-        <button type="submit" class="btn btn-outline-light">
-            <i class="fas fa-search"></i>
-        </button>
-    </form>
+                <!-- tìm kiếm sản phẩm -->
+
+                <form method="GET" action="" class="d-flex me-auto">
+                    <input type="hidden" name="url" value="client/home">
+                    <input type="text" name="search" class="form-control me-2"
+                        placeholder="Tìm sản phẩm..."
+                        value="<?= htmlspecialchars($data['search'] ?? '') ?>">
+                    <button type="submit" class="btn btn-outline-light">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+                
+
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link active" href="" ?url="?url=client/home">🏠 Trang chủ</a></li>
                     <li class="nav-item"><a class="nav-link" href="?url=client/list">👟 Sản phẩm</a></li>
@@ -184,15 +187,15 @@
 
             <!-- Danh sách sản phẩm -->
             <div class="row g-4 flex-grow-1" id="productContainer">
-                 <!-- THÔNG BÁO NẾU KHÔNG TÌM THẤY SẢN PHẨM -->
-        <?php if (empty($data['products'])) : ?> 
-        <div class="col-12">
-            <div class="alert alert-warning text-center w-100">
-                Không tìm thấy sản phẩm nào phù hợp.
-            </div>
-        </div>
-        <?php else : ?>
-        <?php endif; ?>
+                <!-- THÔNG BÁO NẾU KHÔNG TÌM THẤY SẢN PHẨM -->
+                <?php if (empty($data['products'])) : ?>
+                    <div class="col-12">
+                        <div class="alert alert-warning text-center w-100">
+                            Không tìm thấy sản phẩm nào phù hợp.
+                        </div>
+                    </div>
+                <?php else : ?>
+                <?php endif; ?>
 
 
                 <?php foreach ($data['products'] as $product) : ?>
@@ -203,7 +206,7 @@
                                 <h5 class="card-title"><?= htmlspecialchars($product['name']) ?></h5>
                                 <p class="card-text"><?= htmlspecialchars(mb_substr($product['description'], 0, 80)) ?>...</p>
                                 <p class="fw-bold text-danger"><?= number_format($product['price'], 0, ',', '.') ?> VND</p>
-                              <a href="?url=client/detail/<?= $product['id'] ?>" class="btn btn-outline-primary w-100">Xem chi tiết</a>
+                                <a href="?url=client/detail/<?= $product['id'] ?>" class="btn btn-outline-primary w-100">Xem chi tiết</a>
                             </div>
                         </div>
                     </div>
@@ -324,8 +327,9 @@
         showPage(currentPage); // Hiển thị trang đầu tiên
     </script>
     <!-- JS -->
-        
+
     <!-- chat popup cho trang chủ -->
-      <?php include 'chat_popup.php'; ?>
+    <?php include 'chat_popup.php'; ?>
 </body>
+
 </html>

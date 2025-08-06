@@ -220,6 +220,7 @@
             BẢN QUYỀN THUỘC CÔNG TY TNHH UNIQLO. BẢO LƯU MỌI QUYỀN.
         </div>
     </footer>
+            <?php include 'chat_popup.php'; ?>
 
 </body>
 
