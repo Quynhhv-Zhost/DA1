@@ -45,6 +45,7 @@ class Product extends Database
     {
         return $this->query("DELETE FROM products WHERE id = ?", [$id]);
     }
+<<<<<<< Updated upstream
 
     //hàm tìm kiếm sản phẩm
     public function searchByname($name)
@@ -54,5 +55,11 @@ class Product extends Database
             "SELECT * FROM products WHERE name LIKE ? ORDER BY id DESC",
             ['%' . $name . '%']
         )->fetchAll();
+=======
+    public function searchProducts($keyword)
+    {
+        $keyword = "%$keyword%";
+        return $this->query("SELECT * FROM products WHERE name LIKE ?", [$keyword])->fetchAll();
+>>>>>>> Stashed changes
     }
 }

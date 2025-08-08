@@ -51,6 +51,7 @@
 </head>
 
 <body>
+<<<<<<< Updated upstream
   <div class="container-fluid">
     <div class="row">
       <!-- Sidebar -->
@@ -87,6 +88,40 @@
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+=======
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-2 sidebar py-3">
+                <div class="logo text-center mb-4">ADMIN PANEL</div>
+                <a href="?url=product/index" class="<?= (strpos($_GET['url'] ?? '', 'product') !== false) ? 'active' : '' ?>">Sản phẩm</a>
+                <a href="?url=order/index" class="<?= (strpos($_GET['url'] ?? '', 'order') !== false) ? 'active' : '' ?>">Đơn hàng</a>
+                <a href="?url=user/index" class="<?= (strpos($_GET['url'] ?? '', 'user') !== false) ? 'active' : '' ?>">Người dùng</a>
+                <a href="?url=chat/adminSupport" class="<?= (strpos($_GET['url'] ?? '', 'chat/adminSupport') !== false) ? 'active' : '' ?>">
+                    🛟 Hỗ Trợ
+                </a>
+                <hr>
+                <a href="?url=auth/logout">Đăng xuất</a>
+            </nav>
+            <!-- Main Content -->
+            <main class="col-md-10 px-4 py-4">
+                <?php
+                if (!empty($content) && file_exists($content)) {
+                    require $content;
+                }
+                ?>
+            </main>
+        </div>
+        <!-- chat popup cho trang chủ -->
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Load SweetAlert2 trước -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
+>>>>>>> Stashed changes
 </body>
 
 </html>
