@@ -10,14 +10,25 @@ class Product extends Database
     // Lấy chi tiết 1 sản phẩm theo ID
     public function getById($id)
     {
+        // Lấy thông tin sản phẩm
         $stmt = $this->query("SELECT * FROM products WHERE id = ?", [$id]);
         $product = $stmt->fetch();
 
+        // Lấy các biến thể của sản phẩm
         $variations = $this->query("SELECT * FROM product_variations WHERE product_id = ?", [$id])->fetchAll();
+
+        // Tính giá cuối cùng của biến thể
+        foreach ($variations as &$variation) {
+            // Tính giá của biến thể dựa trên giá gốc của sản phẩm cộng với price_diff
+            $variation['final_price'] = $product['price'] + $variation['price_diff'];
+        }
+
+        // Gắn biến thể vào sản phẩm
         $product['variations'] = $variations;
 
         return $product;
     }
+
     public function getVariationById($variationId)
     {
         $stmt = $this->query("SELECT * FROM product_variations WHERE id = ?", [$variationId]);
@@ -45,21 +56,9 @@ class Product extends Database
     {
         return $this->query("DELETE FROM products WHERE id = ?", [$id]);
     }
-<<<<<<< Updated upstream
-
-    //hàm tìm kiếm sản phẩm
-    public function searchByname($name)
-    {
-        //tìm sản phẩm chứa chuỗi tìm kiếm (like %...%)
-        return $this->query(
-            "SELECT * FROM products WHERE name LIKE ? ORDER BY id DESC",
-            ['%' . $name . '%']
-        )->fetchAll();
-=======
     public function searchProducts($keyword)
     {
         $keyword = "%$keyword%";
         return $this->query("SELECT * FROM products WHERE name LIKE ?", [$keyword])->fetchAll();
->>>>>>> Stashed changes
     }
 }

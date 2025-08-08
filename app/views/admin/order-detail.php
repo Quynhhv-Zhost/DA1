@@ -3,32 +3,22 @@
 <h2 class="mb-4">Chi tiết đơn hàng #<?= $order['id'] ?></h2>
 
 <div class="mb-4">
-<<<<<<< Updated upstream
-  <strong>Khách hàng (user_id):</strong> <?= $order['user_id'] ?><br>
+  <strong>Khách hàng:</strong> <?= htmlspecialchars($order['username']) ?> (ID: <?= $order['user_id'] ?>)<br>
   <strong>Phương thức thanh toán:</strong> <?= htmlspecialchars($order['payment_method']) ?><br>
+  <strong>Họ và tên người nhận:</strong> <?= htmlspecialchars($order['fullname'] ?? '') ?><br>
+  <strong>Email:</strong> <?= htmlspecialchars($order['email'] ?? '') ?><br>
+  <strong>Số điện thoại:</strong> <?= htmlspecialchars($order['phone'] ?? '') ?><br>
+  <strong>Tỉnh/Thành phố:</strong> <?= htmlspecialchars($order['province'] ?? '') ?><br>
+  <strong>Quận/Huyện:</strong> <?= htmlspecialchars($order['district'] ?? '') ?><br>
+  <strong>Địa chỉ chi tiết:</strong> <?= htmlspecialchars($order['address'] ?? '') ?><br>
+  <strong>Ghi chú:</strong> <?= htmlspecialchars($order['note'] ?? '') ?><br>
+  <br>
   <strong>Ngày đặt:</strong> <?= htmlspecialchars($order['created_at']) ?><br>
   <strong>Trạng thái:</strong>
   <span class="badge bg-<?= $order['status'] === 'completed' ? 'success' : ($order['status'] === 'canceled' ? 'danger' : 'warning') ?>">
     <?= htmlspecialchars($order['status']) ?>
   </span>
-=======
-    <strong>Khách hàng:</strong> <?= htmlspecialchars($order['username']) ?> (ID: <?= $order['user_id'] ?>)<br>
-    <strong>Phương thức thanh toán:</strong> <?= htmlspecialchars($order['payment_method']) ?><br>
-    <strong>Họ và tên người nhận:</strong> <?= htmlspecialchars($order['fullname'] ?? '') ?><br>
-    <strong>Email:</strong> <?= htmlspecialchars($order['email'] ?? '') ?><br>
-    <strong>Số điện thoại:</strong> <?= htmlspecialchars($order['phone'] ?? '') ?><br>
-    <strong>Tỉnh/Thành phố:</strong> <?= htmlspecialchars($order['province'] ?? '') ?><br>
-    <strong>Quận/Huyện:</strong> <?= htmlspecialchars($order['district'] ?? '') ?><br>
-    <strong>Địa chỉ chi tiết:</strong> <?= htmlspecialchars($order['address'] ?? '') ?><br>
-    <strong>Ghi chú:</strong> <?= htmlspecialchars($order['note'] ?? '') ?><br>
-    <br>
-    <strong>Ngày đặt:</strong> <?= htmlspecialchars($order['created_at']) ?><br>
-    <strong>Trạng thái:</strong>
-    <span class="badge bg-<?= $order['status'] === 'completed' ? 'success' : ($order['status'] === 'canceled' ? 'danger' : 'warning') ?>">
-        <?= htmlspecialchars($order['status']) ?>
-    </span>
 
->>>>>>> Stashed changes
 </div>
 
 <h5>Sản phẩm đặt mua:</h5>
@@ -49,7 +39,7 @@
       <tr>
         <td>
           <div class="product-item">
-            <img src="/DA1/public/assets/images/<?= htmlspecialchars($item['image']) ?>" width="60" class="rounded">
+            <img src="/DA1/code/public/assets/images/<?= htmlspecialchars($item['image']) ?>" width="60" class="rounded">
           </div>
         </td>
         <td><?= htmlspecialchars($item['product_name']) ?></td>
@@ -76,69 +66,55 @@
 
 <!-- Form đổi trạng thái -->
 <div class="mt-5">
-<<<<<<< Updated upstream
   <form method="POST" action="?url=order/updateStatus/<?= $order['id'] ?>" class="d-inline-block">
     <div class="input-group">
-      <select name="status" class="form-select" required>
-        <option value="pending" <?= $order['status'] == 'pending' ? 'selected' : '' ?>>Chờ duyệt</option>
-        <option value="completed" <?= $order['status'] == 'completed' ? 'selected' : '' ?>>Đã duyệt/Giao cho vận chuyển</option>
-        <option value="canceled" <?= $order['status'] == 'canceled' ? 'selected' : '' ?>>Huỷ đơn</option>
-      </select>
-      <button type="submit" class="btn btn-success">Cập nhật</button>
+      <?php
+      // Khai báo danh sách trạng thái đầy đủ và trạng thái được phép cập nhật tiếp theo
+      $status = $order['status'];
+      $statusLabels = [
+        'pending'    => 'Chờ duyệt',
+        'preparing'  => 'Đang chuẩn bị',
+        'packed'     => 'Đã đóng gói',
+        'shipping'   => 'Đã giao cho vận chuyển',
+        'delivered'  => 'Đã giao hàng (chờ xác nhận)',
+        'completed'  => 'Hoàn thành',
+        'canceled'   => 'Đã huỷ',
+      ];
+
+      $adminTransitions = [
+        'pending'    => ['preparing', 'canceled'],
+        'preparing'  => ['packed', 'canceled'],
+        'packed'     => ['shipping'],
+        'shipping'   => ['delivered'],
+        'delivered'  => [], // client mới xác nhận
+        'completed'  => [],
+        'canceled'   => [],
+      ];
+
+      ?>
+      <form method="POST" action="?url=order/updateStatus/<?= $order['id'] ?>" class="d-inline-block">
+        <div class="input-group">
+          <?php if (!empty($adminTransitions[$status])) : ?>
+            <select name="status" class="form-select" required>
+              <?php foreach ($adminTransitions[$status] as $nextStatus) : ?>
+                <option value="<?= $nextStatus ?>"><?= $statusLabels[$nextStatus] ?></option>
+              <?php endforeach; ?>
+            </select>
+            <button type="submit" class="btn btn-success">Cập nhật</button>
+          <?php else : ?>
+            <div class="form-control-plaintext text-start ps-2">
+              <?php if ($status === 'completed') : ?>
+                <span class="text-success">✅ Đơn hàng đã hoàn tất.</span>
+              <?php elseif ($status === 'canceled') : ?>
+                <span class="text-danger">❌ Đơn hàng đã bị huỷ.</span>
+              <?php else : ?>
+                <span class="text-muted">Không thể cập nhật tiếp từ trạng thái hiện tại.</span>
+              <?php endif; ?>
+            </div>
+          <?php endif; ?>
+        </div>
+      </form>
     </div>
   </form>
   <a href="?url=order/index" class="btn btn-secondary ms-3">⬅️ Quay lại danh sách</a>
-=======
-    <form method="POST" action="?url=order/updateStatus/<?= $order['id'] ?>" class="d-inline-block">
-        <div class="input-group">
-            <?php
-            // Khai báo danh sách trạng thái đầy đủ và trạng thái được phép cập nhật tiếp theo
-            $status = $order['status'];
-            $statusLabels = [
-                'pending'    => 'Chờ duyệt',
-                'preparing'  => 'Đang chuẩn bị',
-                'packed'     => 'Đã đóng gói',
-                'shipping'   => 'Đã giao cho vận chuyển',
-                'delivered'  => 'Đã giao hàng (chờ xác nhận)',
-                'completed'  => 'Hoàn thành',
-                'canceled'   => 'Đã huỷ',
-            ];
-
-            $adminTransitions = [
-                'pending'    => ['preparing', 'canceled'],
-                'preparing'  => ['packed', 'canceled'],
-                'packed'     => ['shipping'],
-                'shipping'   => ['delivered'],
-                'delivered'  => [], // client mới xác nhận
-                'completed'  => [],
-                'canceled'   => [],
-            ];
-
-            ?>
-            <form method="POST" action="?url=order/updateStatus/<?= $order['id'] ?>" class="d-inline-block">
-                <div class="input-group">
-                    <?php if (!empty($adminTransitions[$status])) : ?>
-                        <select name="status" class="form-select" required>
-                            <?php foreach ($adminTransitions[$status] as $nextStatus) : ?>
-                                <option value="<?= $nextStatus ?>"><?= $statusLabels[$nextStatus] ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                        <button type="submit" class="btn btn-success">Cập nhật</button>
-                    <?php else : ?>
-                        <div class="form-control-plaintext text-start ps-2">
-                            <?php if ($status === 'completed') : ?>
-                                <span class="text-success">✅ Đơn hàng đã hoàn tất.</span>
-                            <?php elseif ($status === 'canceled') : ?>
-                                <span class="text-danger">❌ Đơn hàng đã bị huỷ.</span>
-                            <?php else : ?>
-                                <span class="text-muted">Không thể cập nhật tiếp từ trạng thái hiện tại.</span>
-                            <?php endif; ?>
-                        </div>
-                    <?php endif; ?>
-                </div>
-            </form>
-        </div>
-    </form>
-    <a href="?url=order/index" class="btn btn-secondary ms-3">⬅️ Quay lại danh sách</a>
->>>>>>> Stashed changes
 </div>

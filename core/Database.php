@@ -1,7 +1,6 @@
 <?php
 class Database
 {
-    
     protected $pdo;
 
     public function __construct()

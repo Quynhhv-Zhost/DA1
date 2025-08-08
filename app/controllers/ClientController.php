@@ -54,8 +54,7 @@ class ClientController extends Controller
         $userModel = $this->model('User');
         $user = $userModel->getUserByUsername($username);
 
-        if ($user && $user['role'] === 'user' && password_verify($password, $user['password'])) {
-
+        if ($user && $user['role'] === 'user' && $user['password'] === md5($password)) {
             $_SESSION['user'] = $user;
             $_SESSION['success'] = "Đăng nhập thành công!";
             header('Location: ?url=client/home');
@@ -222,15 +221,6 @@ class ClientController extends Controller
 
         $this->view('client/orders', ['orders' => $orders]);
     }
-<<<<<<< Updated upstream
-    public function contact()
-    {
-        $this->view('client/contact');
-    }
-    public function about()
-    {
-        $this->view('client/about');
-=======
 
     public function updateDeliveryInfo($orderId)
     {
@@ -311,6 +301,5 @@ class ClientController extends Controller
         $products = $productModel->searchProducts($q);
 
         $this->view('client/search-results', ['products' => $products, 'query' => $q]);
->>>>>>> Stashed changes
     }
 }

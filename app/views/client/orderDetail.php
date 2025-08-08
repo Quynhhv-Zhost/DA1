@@ -134,13 +134,8 @@ $canMarkAsReceived = strtolower($order['status']) === 'delivered';
                 $image = htmlspecialchars($item['image'] ?? 'default.jpg');
                 $line_total = $item['variation_price'] * $item['quantity'];
             ?>
-<<<<<<< Updated upstream
-                <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-lg border">
-                    <img src="/DA1/public/assets/images/<?= $image ?>" alt="Ảnh sản phẩm" class="w-24 h-24 object-cover rounded">
-=======
                 <div class="flex flex-col sm:flex-row items-center sm:items-start gap-4 p-4 bg-white rounded-lg border shadow-sm">
                     <img src="/DA1/code/public/assets/images/<?= $image ?>" alt="Ảnh sản phẩm" class="w-24 h-24 object-cover rounded-lg shadow-sm border">
->>>>>>> Stashed changes
                     <div class="flex-grow">
                         <p class="text-xl font-semibold mb-1"><?= htmlspecialchars($item['product_name'] ?? 'Tên SP') ?></p>
                         <p class="text-gray-700 mb-1">
@@ -149,24 +144,12 @@ $canMarkAsReceived = strtolower($order['status']) === 'delivered';
                         <p class="text-gray-700 mb-1">Số lượng: <strong><?= (int) ($item['quantity'] ?? 0) ?></strong></p>
                         <p class="text-sm text-gray-500">Đơn giá: <?= number_format($item['variation_price'], 0, ',', '.') ?> VND</p>
                     </div>
-<<<<<<< Updated upstream
-                    <div class="text-lg font-semibold text-red-600">
-                        <?= number_format(($item['price'] ?? 0) * ($item['quantity'] ?? 0), 0, ',', '.') ?> VND
-=======
                     <div class="text-lg font-bold text-red-600 whitespace-nowrap">
                         <?= number_format($line_total, 0, ',', '.') ?> VND
->>>>>>> Stashed changes
                     </div>
                 </div>
             <?php endforeach; ?>
         </div>
-<<<<<<< Updated upstream
-
-        <div class="mt-8 text-center">
-            <a href="?url=client/orders" class="inline-block px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition">Quay lại danh sách đơn hàng</a>
-        </div>
-=======
->>>>>>> Stashed changes
     </div>
 </body>
 

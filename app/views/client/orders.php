@@ -105,10 +105,6 @@
                             <a href="?url=client/orderDetail/<?= $order['id'] ?>" class="inline-block px-6 py-3 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600 transition w-full md:w-auto text-center">
                                 Xem chi tiết
                             </a>
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
                         </div>
                     </div>
                 <?php endforeach; ?>

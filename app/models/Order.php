@@ -23,14 +23,16 @@ class Order extends Database
     }
     public function addOrderItems($orderId, $cartItems)
     {
-        $total = 0;
+        $total = 0; // để tính tổng đơn hàng
 
         foreach ($cartItems as $item) {
-            $finalPrice = $item['price']; // Giá đã bao gồm biến thể
+            // Giá cuối đã được xử lý khi thêm vào giỏ hàng (price = gốc + price_diff)
+            $finalPrice = $item['price'];  // ✅ Không cộng lại variationPrice nữa
 
-            // Tính VAT (10%)
+            // Tính VAT
             $finalPriceWithVAT = $finalPrice * 1.1;
 
+            // Lưu vào order_items
             $this->query(
                 "INSERT INTO order_items (order_id, product_id, variation_id, quantity, price) VALUES (?, ?, ?, ?, ?)",
                 [
@@ -42,18 +44,16 @@ class Order extends Database
                 ]
             );
 
+            // Cộng dồn tổng tiền
             $total += $finalPriceWithVAT * $item['quantity'];
         }
 
+        // Cập nhật total_price cho đơn hàng
         $this->query("UPDATE orders SET total_price = ? WHERE id = ?", [$total, $orderId]);
     }
-
     public function getOrderById($orderId, $userId)
     {
-<<<<<<< Updated upstream
-=======
         // Lấy đơn hàng kèm username
->>>>>>> Stashed changes
         $order = $this->query(
             "SELECT 
                 o.*, 
@@ -66,8 +66,6 @@ class Order extends Database
 
         if (!$order) return null;
 
-<<<<<<< Updated upstream
-=======
         // Lấy danh sách sản phẩm kèm thông tin biến thể
         $orderItems = $this->query(
             "SELECT 
@@ -125,7 +123,6 @@ class Order extends Database
         if (!$order) return null;
 
         // Lấy danh sách sản phẩm kèm thông tin biến thể
->>>>>>> Stashed changes
         $orderItems = $this->query(
             "SELECT 
                 oi.*, 
@@ -136,7 +133,7 @@ class Order extends Database
                 COALESCE(NULLIF(v.image, ''), p.image) AS image,
                 p.name AS product_name,
                 oi.price AS variation_price,
-                v.price AS variant_price
+                v.price_diff
             FROM order_items oi
             JOIN product_variations v ON oi.variation_id = v.id
             JOIN products p ON v.product_id = p.id
@@ -144,69 +141,19 @@ class Order extends Database
             [$orderId]
         )->fetchAll();
 
+        // Tính giá cuối cho mỗi sản phẩm (bao gồm VAT)
         foreach ($orderItems as &$item) {
-            $item['final_price'] = $item['variant_price'];
-            $item['final_price_with_vat'] = $item['variant_price'] * 1.1;
+            $item['final_price_with_vat'] = $item['variation_price']; // đã bao gồm VAT
         }
+
 
         $order['items'] = $orderItems;
         return $order;
     }
 
-    public function getOrdersByUser($userId)
-    {
-        return $this->query(
-            "SELECT * FROM orders WHERE user_id = ? ORDER BY created_at DESC",
-            [$userId]
-        )->fetchAll();
-    }
 
-    public function getAllOrders()
-    {
-        return $this->query("SELECT * FROM orders ORDER BY created_at DESC")->fetchAll();
-    }
-
-    public function getOrderByIdAdmin($orderId)
-    {
-        $order = $this->query(
-            "SELECT * FROM orders WHERE id = ?",
-            [$orderId]
-        )->fetch();
-
-        if (!$order) return null;
-
-        $orderItems = $this->query(
-            "SELECT 
-                oi.*, 
-                v.color, 
-                v.size, 
-                v.image AS variation_image,
-                p.image AS product_image,
-                COALESCE(NULLIF(v.image, ''), p.image) AS image,
-                p.name AS product_name,
-                oi.price AS variation_price,
-                v.price AS variant_price
-            FROM order_items oi
-            JOIN product_variations v ON oi.variation_id = v.id
-            JOIN products p ON v.product_id = p.id
-            WHERE oi.order_id = ?",
-            [$orderId]
-        )->fetchAll();
-
-        foreach ($orderItems as &$item) {
-            $item['final_price_with_vat'] = $item['variation_price'];
-        }
-
-        $order['items'] = $orderItems;
-        return $order;
-    }
-
-<<<<<<< Updated upstream
-    public function updateStatus($id, $status)
-=======
     // Cập nhật trạng thái đơn hàng (admin duyệt, chuyển trạng thái)
     public function updateStatus($id, $newStatus)
->>>>>>> Stashed changes
     {
         // Lấy trạng thái hiện tại
         $current = $this->query("SELECT status FROM orders WHERE id = ?", [$id])->fetchColumn();
@@ -231,7 +178,14 @@ class Order extends Database
     public function updateDeliveryInfo($orderId, $fullname, $email, $phone, $province, $district, $address, $note)
     {
         $this->query("UPDATE orders SET fullname = ?, email = ?, phone = ?, province = ?, district = ?, address = ?, note = ? WHERE id = ?", [
-            $fullname, $email, $phone, $province, $district, $address, $note, $orderId
+            $fullname,
+            $email,
+            $phone,
+            $province,
+            $district,
+            $address,
+            $note,
+            $orderId
         ]);
     }
     public function autoCompleteDeliveredOrders()

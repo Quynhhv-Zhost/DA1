@@ -237,7 +237,8 @@
     <!-- Load SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Chat popup -->
-    <?php include '/Applications/XAMPP/xamppfiles/htdocs/DA1/Code/app/views/client/chat_popup.php'; ?>
+    <?php include 'C:/laragon/www/DA1/app/views/client/chat_popup.php'; ?>
+
 
 
 </body>

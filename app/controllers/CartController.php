@@ -21,7 +21,6 @@ class CartController extends Controller
     }
 
 
-
     public function add()
     {
         if (session_status() === PHP_SESSION_NONE) session_start();
