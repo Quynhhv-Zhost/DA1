@@ -106,7 +106,6 @@
                     <li class="nav-item"><a class="nav-link" href="?url=client/list">👟 Sản phẩm</a></li>
                     <li class="nav-item"><a class="nav-link" href="?url=client/about">📖 Giới thiệu</a></li>
                     <li class="nav-item"><a class="nav-link" href="?url=client/contact">📞 Liên hệ</a></li>
-                    <li class="nav-item"><a class="nav-link" href="?url=client/cart">🛒 Giỏ hàng</a></li>
                     <li class="nav-item">
 
                         <?php if (isset($_SESSION['user']) && is_array($_SESSION['user']) && isset($_SESSION['user']['username'])) : ?>
@@ -115,6 +114,7 @@
                             <i class="fas fa-user"></i> <?= htmlspecialchars($_SESSION['user']['username']) ?>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="?url=cart/show"><i class="fa fa-shopping-cart me-2"></i>Giỏ hàng</a></li>
                             <li><a class="dropdown-item" href="?url=client/logout">Đăng xuất</a></li>
                         </ul>
                     </li>
@@ -145,14 +145,15 @@
     <!-- Banner (Slideshow) -->
     <div id="bannerCarousel" class="carousel slide mb-4" data-bs-ride="carousel" data-bs-interval="3000">
         <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="/DA1/public/assets/images/banner1.png" class="d-block w-100" style="height: 460px; object-fit: cover;" alt="Banner 1">
+            <div class="carousel-item">
+                <img src="/DuAn1/public/assets/images/banner1.png" class="d-block w-100" style="height: 460px; object-fit: cover;" alt="Banner 1">
+            </div>
+
+            <div class="carousel-item">
+                <img src="/DuAn1/public/assets/images/banner2.jpg" class="d-block w-100" style="height: 460px; object-fit: cover;" alt="Banner 2">
             </div>
             <div class="carousel-item">
-                <img src="/DA1/public/assets/images/banner2.jpg" class="d-block w-100" style="height: 460px; object-fit: cover;" alt="Banner 2">
-            </div>
-            <div class="carousel-item">
-                <img src="/DA1/public/assets/images/banner3.png" class="d-block w-100" style="height: 460px; object-fit: cover;" alt="Banner 3">
+                <img src="/DuAn1/public/assets/images/banner3.png" class="d-block w-100" style="height: 460px; object-fit: cover;" alt="Banner 3">
             </div>
         </div>
 
@@ -286,6 +287,7 @@
                 <p class="mb-0 small">BẢN QUYỀN THUỘC CÔNG TY TNHH UNIQLO. BẢO LƯU MỌI QUYỀN.</p>
             </div>
         </div>
+
     </footer>
 
 
@@ -321,7 +323,16 @@
 
         showPage(currentPage); // Hiển thị trang đầu tiên
     </script>
+
     <!-- JS -->
+    =======
+    <!-- Load SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Chat popup -->
+    <?php include 'C:/laragon/www/DuAn1/app/views/client/chat_popup.php'; ?>
+
+
+    >>>>>>> Stashed changes
 
 </body>
 

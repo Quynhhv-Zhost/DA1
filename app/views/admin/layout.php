@@ -65,6 +65,9 @@
         <a href="?url=user/index" class="<?= (strpos($_GET['url'] ?? '', 'user') !== false) ? 'active' : '' ?>">
           Người dùng
         </a>
+        <a href="?url=chat/adminSupport" class="<?= (strpos($_GET['url'] ?? '', 'chat/adminSupport') !== false) ? 'active' : '' ?>">
+          🛟 Hỗ Trợ
+        </a>
         <hr class="border-light mx-3">
         <a href="?url=auth/logout">Đăng xuất</a>
       </nav>
