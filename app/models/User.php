@@ -1,14 +1,29 @@
 <?php
 
+<<<<<<< Updated upstream
 class User extends Database
 {
     // Lấy người dùng theo tên đăng nhập
+=======
+require_once __DIR__ . '/../../core/Database.php';
+
+class User extends Database
+{
+    // private $db;
+
+    // public function __construct()
+    // {
+    //     parent::__construct();
+    // }
+
+>>>>>>> Stashed changes
     public function getUserByUsername($username)
     {
         $sql = "SELECT * FROM users WHERE username = ?";
         $stmt = $this->query($sql, [$username]);
         return $stmt->fetch();
     }
+<<<<<<< Updated upstream
 
     // Tạo người dùng (đăng ký đơn giản)
     public function createUser($username, $password)
@@ -19,11 +34,24 @@ class User extends Database
     }
 
     // Lấy tất cả người dùng
+=======
+    public function createUser($username, $password, $role = 'user')
+    {
+        $hash = md5($password); // hoặc password_hash()
+        $sql = "INSERT INTO users (username, password, role) VALUES (?, ?, ?)";
+        $this->query($sql, [$username, $hash, $role]);
+    }
+
+>>>>>>> Stashed changes
     public function all()
     {
         return $this->query("SELECT * FROM users ORDER BY id DESC")->fetchAll();
     }
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
     // Tìm người dùng theo ID
     public function find($id)
     {
@@ -43,6 +71,7 @@ class User extends Database
     // Cập nhật người dùng
     public function update($id, $data)
     {
+<<<<<<< Updated upstream
         $fields = [];
         $params = [];
 
@@ -58,6 +87,19 @@ class User extends Database
         $params[] = $id;
         $sql = "UPDATE users SET " . implode(', ', $fields) . " WHERE id = ?";
         return $this->query($sql, $params);
+=======
+        if (isset($data['password'])) {
+            return $this->query(
+                "UPDATE users SET username = ?, role = ?, password = ? WHERE id = ?",
+                [$data['username'], $data['role'], $data['password'], $id]
+            );
+        } else {
+            return $this->query(
+                "UPDATE users SET username = ?, role = ? WHERE id = ?",
+                [$data['username'], $data['role'], $id]
+            );
+        }
+>>>>>>> Stashed changes
     }
 
 
@@ -72,5 +114,15 @@ class User extends Database
 
         // Nếu không có đơn hàng thì xóa
         return $this->query("DELETE FROM users WHERE id = ?", [$id]);
+<<<<<<< Updated upstream
+=======
+    }
+    public function searchByUsername($keyword)
+    {
+        return $this->query(
+            "SELECT * FROM users WHERE username LIKE ? ORDER BY id DESC",
+            ["%$keyword%"]
+        )->fetchAll();
+>>>>>>> Stashed changes
     }
 }

@@ -8,13 +8,26 @@ class ClientController extends Controller
         $products = $productModel->getAll();
         $this->view('client/home', ['products' => $products]);
     }
-
     public function detail($id)
     {
         $productModel = $this->model('Product');
         $product = $productModel->getById($id);
-        $this->view('client/product-detail', ['product' => $product]);
+
+        $reviewModel = $this->model('Review');
+        $limit = 3;
+
+        // ✅ Luôn load trang 1 khi mở sản phẩm
+        $reviews = $reviewModel->getReviewsByProductId((int)$id, $limit, 0);
+        $totalReviews = $reviewModel->countReviewsByProductId((int)$id);
+        $totalPages = ceil($totalReviews / $limit);
+
+        $this->view('client/product-detail', [
+            'product' => $product,
+            'reviews' => $reviews,
+            'totalPages' => $totalPages
+        ]);
     }
+
 
     // ✅ Hiển thị form đăng nhập
     public function showLoginForm()
@@ -198,10 +211,18 @@ class ClientController extends Controller
         }
 
         $orderModel = $this->model('Order');
-        $orders = $orderModel->getOrdersByUser($_SESSION['user']['id']);
+        $userId = $_SESSION['user']['id'];
+
+        // ✅ Lấy dữ liệu lọc
+        $status = $_GET['status'] ?? null;
+        $q = $_GET['q'] ?? null;
+
+        // ✅ Truyền vào hàm lọc
+        $orders = $orderModel->getOrdersByFilter($userId, $status, $q);
 
         $this->view('client/orders', ['orders' => $orders]);
     }
+<<<<<<< Updated upstream
     public function contact()
     {
         $this->view('client/contact');
@@ -209,5 +230,87 @@ class ClientController extends Controller
     public function about()
     {
         $this->view('client/about');
+=======
+
+    public function updateDeliveryInfo($orderId)
+    {
+        if (session_status() === PHP_SESSION_NONE) session_start();
+        if (!isset($_SESSION['user'])) {
+            header('Location: ?url=client/showLoginForm');
+            exit;
+        }
+
+        $orderModel = $this->model('Order');
+        $order = $orderModel->getOrderById($orderId, $_SESSION['user']['id']);
+        if (!$order || $order['status'] !== 'preparing') {
+            die("Không thể cập nhật đơn hàng này.");
+        }
+
+        $fullname = $_POST['fullname'];
+        $email = $_POST['email'];
+        $phone = $_POST['phone'];
+        $province = $_POST['province'];
+        $district = $_POST['district'];
+        $address = $_POST['address'];
+        $note = $_POST['note'];
+
+        $orderModel->updateDeliveryInfo($orderId, $fullname, $email, $phone, $province, $district, $address, $note);
+        header("Location: ?url=client/orderDetail/$orderId");
+        exit;
+    }
+    private function checkLogin()
+    {
+        if (!isset($_SESSION['user'])) {
+            header("Location: ?url=client/login");
+            exit;
+        }
+    }
+
+    public function confirmReceived($id)
+    {
+        $this->checkLogin();
+        $orderModel = $this->model('Order');
+
+        // ⚠️ Sửa tại đây: thêm tham số thứ 2 là user_id
+        $order = $orderModel->getOrderById($id, $_SESSION['user']['id']);
+
+        if ($order && $order['status'] === 'delivered') {
+            $orderModel->updateStatus($id, 'completed');
+        }
+
+        header("Location: ?url=client/orderDetail/$id");
+        exit;
+    }
+    public function listOrders()
+    {
+        if (session_status() === PHP_SESSION_NONE) session_start();
+
+        $this->checkLogin();
+
+        $orderModel = $this->model('Order');
+        $userId = $_SESSION['user']['id'];
+
+        // Nhận các tham số lọc
+        $status = $_GET['status'] ?? null;
+        $q = $_GET['q'] ?? null;
+
+        // Gọi model
+        $orders = $orderModel->getOrdersByFilter($userId, $status, $q);
+
+        // Trả về view
+        $this->view('client/orders', [
+            'orders' => $orders
+        ]);
+    }
+    public function search()
+    {
+        if (session_status() === PHP_SESSION_NONE) session_start();
+        $q = $_GET['q'] ?? '';
+
+        $productModel = $this->model('Product');
+        $products = $productModel->searchProducts($q);
+
+        $this->view('client/search-results', ['products' => $products, 'query' => $q]);
+>>>>>>> Stashed changes
     }
 }

@@ -6,7 +6,9 @@
     <meta charset="UTF-8">
     <title>Giỏ hàng</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.0/dist/sweetalert2.min.css" rel="stylesheet">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.0/dist/sweetalert2.min.css" rel="stylesheet"> -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 
 <body class="bg-gray-100">
@@ -36,20 +38,17 @@
     </nav>
 
 
-    <div class="container mx-auto p-6">
-        <h2 class="text-3xl font-semibold text-gray-800 mb-6">Giỏ hàng của bạn</h2>
+    <div class="container mx-auto max-w-5xl p-6 bg-white rounded-lg shadow-lg mt-10">
+        <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">🛒 Giỏ hàng của bạn</h2>
 
         <?php if (empty($data['cart'])) : ?>
-            <div class="p-4 bg-blue-100 text-blue-800 rounded-lg shadow-md mb-6">
+            <div class="p-5 bg-blue-100 text-blue-800 text-center rounded-md shadow mb-6 text-lg">
                 Giỏ hàng của bạn đang trống.
             </div>
-            <div class="flex justify-center">
-                <a href="?url=client/home" class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition">Quay lại trang chủ</a>
-            </div>
         <?php else : ?>
-            <form method="POST" action="?url=cart/remove" id="cartForm">
-                <div class="overflow-x-auto bg-white shadow-lg rounded-lg">
-                    <table class="min-w-full">
+            <form method="POST" id="cartForm" action="?url=cart/remove">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full border rounded-lg">
                         <thead class="bg-gray-200">
                             <tr>
                                 <th class="px-4 py-2"><input type="checkbox" id="selectAll"></th>
@@ -61,7 +60,7 @@
                                 <th class="px-4 py-2 text-center">Hành động</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="bg-white">
                             <?php
                             $total = 0;
                             foreach ($data['cart'] as $item) :
@@ -75,8 +74,8 @@
                                 $total += $subtotal;
                             ?>
                                 <tr class="border-b hover:bg-gray-50">
-                                    <td class="px-4 py-2">
-                                        <input type="checkbox" name="remove[]" value="<?= $item['variation_id'] ?>">
+                                    <td class="px-4 py-2 text-center">
+                                        <input type="checkbox" data-cart-id="<?= $item['id'] ?>" data-variation-id="<?= $item['variation_id'] ?>" class="item-checkbox">
                                     </td>
                                     <td class="px-4 py-2">
                                         <div class="font-semibold"><?= $name ?></div>
@@ -97,48 +96,37 @@
                     </table>
                 </div>
 
-                <div class="flex justify-between items-center mt-4">
+                <!-- Tổng và nút xử lý -->
+                <div class="flex flex-col md:flex-row justify-between items-center mt-6 space-y-4 md:space-y-0">
                     <span class="text-xl font-semibold">Tổng cộng: <span class="text-red-600"><?= number_format($total, 0, ',', '.') ?> VND</span></span>
-                    <div class="flex gap-4">
-                        <button type="button" id="deleteSelected" class="bg-red-500 text-white px-6 py-2 rounded-lg hover:bg-red-600 disabled:opacity-50" disabled onclick="confirmDeleteSelected()">Xoá đã chọn</button>
-                        <a href="?url=client/home" class="bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600">Tiếp tục mua hàng</a>
-                        <a href="?url=cart/checkout" class="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600">Thanh toán</a>
+                    <div class="flex flex-wrap gap-4 justify-center">
+                        <button type="button" onclick="submitForm('remove')" id="deleteBtn" class="bg-red-500 text-white px-6 py-2 rounded hover:bg-red-600 transition">
+                            Xoá các sản phẩm đã chọn
+                        </button>
+                        <button type="button" onclick="submitForm('checkout')" class="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600 transition">
+                            Thanh toán các sản phẩm đã chọn
+                        </button>
                     </div>
                 </div>
             </form>
         <?php endif; ?>
+
+        <!-- Luôn hiển thị: điều hướng -->
+        <div class="flex justify-center gap-6 mt-8">
+            <a href="?url=client/home" class="bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition">Tiếp tục mua hàng</a>
+            <a href="?url=client/orders" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition">Danh sách đơn hàng</a>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.0/dist/sweetalert2.all.min.js"></script>
     <script>
         const selectAll = document.getElementById('selectAll');
-        const checkboxes = document.querySelectorAll('input[name="remove[]"]');
-        const deleteSelectedBtn = document.getElementById('deleteSelected');
+        const checkboxes = document.querySelectorAll('.item-checkbox');
+        const form = document.getElementById('cartForm');
 
-        selectAll.addEventListener('change', function() {
-            checkboxes.forEach(cb => cb.checked = this.checked);
-            toggleDeleteButton();
-        });
-
-        checkboxes.forEach(cb => cb.addEventListener('change', toggleDeleteButton));
-
-        function toggleDeleteButton() {
-            const checked = [...checkboxes].some(cb => cb.checked);
-            deleteSelectedBtn.disabled = !checked;
-        }
-
-        function confirmDeleteSelected() {
-            Swal.fire({
-                title: 'Bạn có chắc chắn xoá sản phẩm đã chọn?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Xoá',
-                cancelButtonText: 'Huỷ',
-                confirmButtonColor: '#d33'
-            }).then(result => {
-                if (result.isConfirmed) {
-                    document.getElementById('cartForm').submit();
-                }
+        if (selectAll) {
+            selectAll.addEventListener('change', function() {
+                checkboxes.forEach(cb => cb.checked = this.checked);
             });
         }
 
@@ -155,12 +143,65 @@
                     const form = document.getElementById('cartForm');
                     const input = document.createElement('input');
                     input.type = 'hidden';
-                    input.name = 'remove[]';
+                    input.name = 'selected_items[]';
                     input.value = variationId;
                     form.appendChild(input);
+                    form.action = '?url=cart/remove'; // ⚠ đảm bảo đúng
                     form.submit();
                 }
             });
+        }
+
+        function submitForm(actionType) {
+            const selected = [...document.querySelectorAll('.item-checkbox:checked')];
+
+            if (selected.length === 0) {
+                Swal.fire('Bạn chưa chọn sản phẩm nào');
+                return;
+            }
+
+            // Xoá các checkbox đang có
+            document.querySelectorAll('input[name="selected_items[]"]').forEach(e => e.remove());
+
+            selected.forEach(item => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'selected_items[]';
+                input.value = actionType === 'remove' ?
+                    item.dataset.variationId :
+                    item.dataset.cartId;
+                form.appendChild(input);
+            });
+
+            if (actionType === 'remove') {
+                Swal.fire({
+                    title: 'Bạn có chắc muốn xoá sản phẩm đã chọn?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Xoá',
+                    cancelButtonText: 'Huỷ'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.action = '?url=cart/remove';
+                        form.submit();
+                    }
+                });
+            } else {
+                form.action = '?url=cart/checkoutSelected';
+                form.submit();
+            }
+        }
+
+        function handleCheckout() {
+            const checked = [...document.querySelectorAll('input[name="selected_items[]"]')].some(cb => cb.checked);
+            if (!checked) {
+                alert("Vui lòng chọn ít nhất 1 sản phẩm để thanh toán");
+                return false;
+            }
+            const form = document.getElementById('cartForm');
+            form.action = '?url=cart/checkoutSelected';
+            form.submit();
+            return false;
         }
     </script>
     <!-- Footer -->

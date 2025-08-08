@@ -78,6 +78,7 @@
 </head>
 
 <body>
+<<<<<<< Updated upstream
     <!-- Bootstrap Carousel JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -110,11 +111,36 @@
                     <li class="nav-item">
 
                         <?php if (isset($_SESSION['user']) && is_array($_SESSION['user']) && isset($_SESSION['user']['username'])) : ?>
+=======
+    <?php if (session_status() === PHP_SESSION_NONE) session_start(); ?>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 sticky-top">
+        <a class="navbar-brand" href="?url=client/home"><i class="fas fa-shoe-prints"></i> <span>ZSneaker</span></a>
+        <div class="d-flex justify-content-center flex-grow-1">
+            <form class="d-flex" action="?url=client/search" method="GET" style="width: 400px;">
+                <input type="hidden" name="url" value="client/search">
+                <input class="form-control me-2" type="search" name="q" placeholder="Tìm sản phẩm..." aria-label="Search">
+                <button class="btn btn-outline-light" type="submit"><i class="fas fa-search"></i></button>
+            </form>
+        </div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link active" href="?url=client/home">Trang chủ</a></li>
+                <li class="nav-item"><a class="nav-link" href="#category">Danh mục</a></li>
+                <li class="nav-item"><a class="nav-link" href="#products">Sản phẩm</a></li>
+                <li class="nav-item"><a class="nav-link" href="#news">Tin tức</a></li>
+                <li class="nav-item"><a class="nav-link" href="#about">Giới thiệu</a></li>
+                <li class="nav-item"><a class="nav-link" href="#contact">Liên hệ</a></li>
+                <?php if (isset($_SESSION['user']['username'])) : ?>
+>>>>>>> Stashed changes
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                             <i class="fas fa-user"></i> <?= htmlspecialchars($_SESSION['user']['username']) ?>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="?url=cart/show"><i class="fa fa-shopping-cart me-2"></i>Giỏ hàng</a></li>
                             <li><a class="dropdown-item" href="?url=client/logout">Đăng xuất</a></li>
                         </ul>
                     </li>
@@ -146,7 +172,16 @@
     <div id="bannerCarousel" class="carousel slide mb-4" data-bs-ride="carousel" data-bs-interval="3000">
         <div class="carousel-inner">
             <div class="carousel-item active">
+<<<<<<< Updated upstream
                 <img src="/DA1/public/assets/images/banner1.png" class="d-block w-100" style="height: 460px; object-fit: cover;" alt="Banner 1">
+=======
+                <img src="/DuAn1/public/assets/images/banner1.png" class="d-block w-100" alt="Banner 1">
+                <div class="carousel-caption">
+                    <h1>Chào mừng đến với ZSneaker</h1>
+                    <p class="lead">Thế giới giày thể thao - Sneaker thời thượng chính hãng</p>
+                    <a href="#products" class="btn btn-cta mt-3">Khám phá ngay</a>
+                </div>
+>>>>>>> Stashed changes
             </div>
             <div class="carousel-item">
                 <img src="/DA1/public/assets/images/banner2.jpg" class="d-block w-100" style="height: 460px; object-fit: cover;" alt="Banner 2">
@@ -286,6 +321,7 @@
                 <p class="mb-0 small">BẢN QUYỀN THUỘC CÔNG TY TNHH UNIQLO. BẢO LƯU MỌI QUYỀN.</p>
             </div>
         </div>
+
     </footer>
 
 
@@ -321,7 +357,16 @@
 
         showPage(currentPage); // Hiển thị trang đầu tiên
     </script>
+<<<<<<< Updated upstream
     <!-- JS -->
+=======
+    <!-- Load SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Chat popup -->
+    <?php include 'C:/laragon/www/DuAn1/app/views/client/chat_popup.php'; ?>
+
+
+>>>>>>> Stashed changes
 
 </body>
 

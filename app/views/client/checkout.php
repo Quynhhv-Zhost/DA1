@@ -147,13 +147,33 @@
             <input type="hidden" name="total_price" value="<?= $grandTotal ?>">
 
             <div>
-                <label class="block font-semibold mb-1">Địa chỉ nhận hàng:</label>
-                <input type="text" name="address" required class="w-full border rounded p-3" placeholder="Nhập địa chỉ nhận hàng">
+                <label class="block font-semibold mb-1">Họ và tên người nhận:</label>
+                <input type="text" name="fullname" required class="w-full border rounded p-3" placeholder="Nhập họ và tên">
+            </div>
+
+            <div>
+                <label class="block font-semibold mb-1">Email:</label>
+                <input type="email" name="email" required class="w-full border rounded p-3" placeholder="Nhập email">
             </div>
 
             <div>
                 <label class="block font-semibold mb-1">Số điện thoại:</label>
                 <input type="tel" name="phone" required class="w-full border rounded p-3" placeholder="Nhập số điện thoại">
+            </div>
+
+            <div>
+                <label class="block font-semibold mb-1">Tỉnh/Thành phố:</label>
+                <input type="text" name="province" required class="w-full border rounded p-3" placeholder="Nhập tỉnh/thành phố">
+            </div>
+
+            <div>
+                <label class="block font-semibold mb-1">Quận/Huyện:</label>
+                <input type="text" name="district" required class="w-full border rounded p-3" placeholder="Nhập quận/huyện">
+            </div>
+
+            <div>
+                <label class="block font-semibold mb-1">Địa chỉ chi tiết:</label>
+                <input type="text" name="address" required class="w-full border rounded p-3" placeholder="Ví dụ: Số 1, đường A, phường B">
             </div>
 
             <div>
@@ -163,6 +183,11 @@
                     <option value="cod">Thanh toán khi nhận hàng (COD)</option>
                     <option value="momo">Ví Momo</option>
                 </select>
+            </div>
+
+            <div>
+                <label class="block font-semibold mb-1">Ghi chú:</label>
+                <textarea name="note" class="w-full border rounded p-3" placeholder="Ghi chú thêm..."></textarea>
             </div>
 
             <button type="submit" class="w-full bg-green-600 text-white font-bold text-xl rounded-lg p-3 hover:bg-green-700 transition">Xác nhận đặt hàng</button>

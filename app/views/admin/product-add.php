@@ -23,7 +23,7 @@
         <textarea name="description" class="form-control" rows="4" placeholder="Thêm mô tả cho sản phẩm (tùy chọn)"></textarea>
     </div>
     <div class="mb-3">
-        <label for="image" class="form-label">Ảnh (jpeg, jpg, png)</label>
+        <label for="images" class="form-label">Ảnh (jpeg, jpg, png)</label>
         <input type="file" name="image" class="form-control" id="imgInp">
         <!-- <img id="imgPreview" src="#" class="img-preview d-none" alt="Preview" /> -->
     </div>
